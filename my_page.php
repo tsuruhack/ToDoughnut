@@ -1,7 +1,7 @@
 <html>
+<head>
 <style>
 </style>
-<head>
 </head>
 <body>
 </body>
