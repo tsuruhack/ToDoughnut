@@ -1,7 +1,6 @@
 // Validating Empty Field
 function insertClick() {
-	document.getElementById('formpop').submit();
-	var str = $('#namepop').val();
+	var summary = $('#namepop').val();
 	console.log(str);
 }
 
