@@ -24,7 +24,8 @@
 				</div>
 			</div>
 		</a> -->
-		<h1>title</h1>
+		<img class="image1" src="./images/donuts_icon2.gif">
+		<div class="title-name"><img class="image2" src="./images/todonuts_title.gif"></div>
 		<div class="my-account">
 			<p>log inする</p>
 		</div>
@@ -96,11 +97,11 @@
 			width=engraph.width();
 		}
 		engraph.css("height",width+"px");
-		engraph.css("margin-left",(-width/2-100)+"px");
+		engraph.css("margin-left",(-width/2-20)+"px");
 		if(windowwidth < max+300){
-			$("#select-date").css("margin-left",(windowwidth/2-max)+"px");
+			$("#select-date").css("margin-left","0px");
 		}else{
-			$("#select-date").css("margin-left",(-width/2)+"px");
+			$("#select-date").css("margin-left",(-width/2+100)+"px");
 		}
 		window.onresize=function(){
 			width=engraph.width();
@@ -117,18 +118,17 @@
 				engraph.css("width",(windowwidth-300)+"px");
 				width=engraph.width();
 			}else{
-				console.log("a");
 				if(windowwidth-300 > windowheight-100){ shorter = windowheight-100;
 				}else{ shorter = windowwidth-300; }
 				engraph.css("width",shorter+"px");
 				width=engraph.width();
 			}
 			engraph.css("height",width+"px");
-			engraph.css("margin-left",(-width/2-100)+"px");
+			engraph.css("margin-left",(-width/2-20)+"px");
 			if(windowwidth < max+300){
-				$("#select-date").css("margin-left",(windowwidth/2-max)+"px");
+				$("#select-date").css("margin-left","0px");
 			}else{
-				$("#select-date").css("margin-left",(-width/2)+"px");;
+				$("#select-date").css("margin-left",(-width/2+100)+"px");;
 			}
 		};
 	</script>

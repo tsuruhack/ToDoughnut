@@ -2,7 +2,7 @@ body{
 	margin: 0;
 	font-family: "Comic Sans MS";
 	background-image:-webkit-linear-gradient(top, white,white,#ceffff) ;
-	overflow-x:hidden;
+
 }
 a {
 	text-decoration: none;
@@ -44,13 +44,15 @@ button:hover{
 #header{
 	margin-left: 227px;
 	padding: 10px 0 0 25px;
-	height: 80px;
+	height: 100px;
 	width: calc(100% - 227px);
 	background-color: #efffff;
 	box-shadow: 0 -5px 20px grey;
 	display: -webkit-box;
+	display: -moz-box;
 	display: flex box;
 	-webkit-box-pack: justify;
+	overflow:hidden;
 }
 .title-image{
 	border-radius: 20px;
@@ -62,21 +64,24 @@ button:hover{
 	cursor: pointer;
 }
 .title-name{
-	margin-top: -190px;
-	margin-left: 130px;
+	width: 500px;
+	height: 125px;
+	margin-top: 15px;
 	z-index: 1;
 }
 .image1{
-	width: 45%;
+	width: 300px;
 	height: auto;
 	margin-left: -10%;
-	margin-top: -50px;
-	
+	margin-top: -100px;
+	z-index: 0;
 }
 .image2{
 	width: auto;
-	height: 80px;
+	margin-left: -100px;
+	height: 60px;
 	margin-top: -10px;
+	
 }
 .my-account{
 	margin: 30px;
@@ -158,7 +163,7 @@ button:hover{
 	overflow:scroll;
 	overflow-x:hidden; 
 	height: 100%;
-	margin-top: -90px;
+	margin-top: -110px;
 }
 #calendar{
 	background-color: white;
@@ -223,8 +228,9 @@ button:hover{
 	color: white;
 }
 #main{
+	width:calc(100% - 227px);
 	margin:30px;
-	width: 90%;
+
 }
 #circle-graph{
 	position: relative;
@@ -233,7 +239,11 @@ button:hover{
 	/*margin-left: 10px;*/
 	width: 40%;
 }
+#main-footer{
+	width: calc(100% - 227px);
+}
 #select-date{
+	width: 300px;
 	position: relative;
 	left: 50%;
 	display: -webkit-box;
