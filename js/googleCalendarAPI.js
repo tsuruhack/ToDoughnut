@@ -1,9 +1,10 @@
 var gcCalendarID;
 var gcEventList = [];
 var gcEventDetails = [];
-var gcViewdata =　[];//posi,summary
+var gcViewdata = [];//posi,summary
 var sequence = 0;
 var hasLoadedEvent = 0;
+var gcTimedistance = 0;
 
 /* カレンダーへのアクセス権を取得 */
 function authorizeCalender(callback1,callback2) {
@@ -42,18 +43,24 @@ function getCalenderList(callback){
   });
 }
 /* イベントの一覧を取得する */
-function getEventList(date,callback){
+function getEventList(callback){
 	gcEventList = [];
-	//var startDate = date;
-	console.log(date);
-	if(!date){
+	//if(!date){
 		var nowDate = new Date();
-	}
+	//}
 	var nen = nowDate.getFullYear();
 	var tuki = nowDate.getMonth();
 	var niti = nowDate.getDate();
-	var ampm = (nowDate.getHours() /12 )*12;
+	var ampm = parseInt(nowDate.getHours() /12 )*12;
+	console.log('apmp'+ampm);
+	var hosei = (gcTimedistance*43200000) ;//今の時刻からどれだけ離れているかgcTimedistance1で12時間分
 	var startDate = new Date(nen,tuki,niti,ampm);
+	console.log(startDate);
+	//（日本限定でいいや補正）
+	//hosei += (1000 * 60 * 60 * 9);
+	var startTime = startDate.getTime() + hosei;
+	startDate.setTime(startTime);
+	console.log(startDate);
     var endDate = new Date(startDate.getTime() + 43200000);
 	var stdate = startDate.toISOString();
 	var eddate = endDate.toISOString();
@@ -71,7 +78,7 @@ function getEventList(date,callback){
     });
     // リクエスト実行
     request.execute(function(resp){
-      console.debug(resp);
+      //console.debug(resp);
       for (var i in resp.items){
         // 予定開始日時/終了日時とイベントIDを表示用の48配列に入れる
         var a = resp.items[i];
@@ -92,7 +99,7 @@ function getEventList(date,callback){
 		ji = (ji % 12) * 4;
 		hun = (hun / 15);
 		var y = ji + hun;
-		
+		console.log('xy'+a.summary+x+y);
 		if(x>y){
 		
 		}
@@ -102,6 +109,8 @@ function getEventList(date,callback){
 		gcEventList.push(a);
 		getEvent(i);
       }
+	  set_gcViewdata();
+	  repaintView();
 	  if(callback) callback();
     });
   });
@@ -115,10 +124,12 @@ function getEvent(evnum,callback){
   var request = gapi.client.calendar.events.get({  // メソッド
     'calendarId': gcCalendarID,  // 対象となるカレンダーのID
     'eventId': evid // 取得したイベントID
+   ,'orderBy':'startTime'
+   ,'singleEvents':true
   });
   // リクエスト実行
   request.execute(function(resp){
-    console.debug(resp);
+    //console.debug(resp);
     var a = resp.result;
     console.debug('start:' + a.start.dateTime + ' end:' + a.end.dateTime +
     'summary:' + a.summary + ' eventid:' + a.id);
@@ -126,8 +137,6 @@ function getEvent(evnum,callback){
 	if(callback) callback();
 	hasLoadedEvent = 1;
   });
-  
-  set_gcViewdata();
 }
 
 /* eventをinsertする */
@@ -151,7 +160,7 @@ function insertEvent(){
   });
  
   request.execute(function(resp){
-     console.debug(resp);
+     //console.debug(resp);
   });
 });
 }
@@ -195,6 +204,9 @@ function set_gcViewdata(){
 	var starr = [];
 	var edarr = [];
 	var cnt = gcEventList.length-1;
+	if(cnt==0){
+		gcViewdata.posi.push(1);
+	}
 	for(var i=0;i<=cnt;i++){
 		console.log(gcEventList[i].start.d_posi);
 		starr[i] = gcEventList[i].start.d_posi;
@@ -202,18 +214,22 @@ function set_gcViewdata(){
 		
 		/* positionを設定 */
 		if(i==0){
-			x = starr[i];
+			var x = starr[i];
 		}else{
 			var x = (starr[i]-edarr[i-1]);
 		}
-		gcViewdata.posi.push(starr[i])
-			var y = (edarr[i]-starr[i]);
-			if(y<0){
-				y = 48;
-			}
-			gcViewdata.posi.push(x);
-			gcViewdata.summary.push('');
-			gcViewdata.summary.push(gcEventList[i].summary);
+		gcViewdata.posi.push(x)
+		var y = (edarr[i]-starr[i]);
+		if(y<0){
+			y = 48;
+		}
+		gcViewdata.posi.push(y);
+		gcViewdata.summary.push('');
+		gcViewdata.summary.push(gcEventList[i].summary);
+	}
+	i--;
+	if(edarr[i]<48){
+		gcViewdata.posi.push(48-edarr[i]);
 	}
 	
 	
@@ -225,6 +241,6 @@ function set_gcViewdata(){
 		}
 	}
 	
-	console.log(gcViewdata);
+	console.log('gcViewdata:'+gcViewdata.posi);
 }
 

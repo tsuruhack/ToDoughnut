@@ -62,8 +62,8 @@ div#analog-clock div#hour-hand {
 	<div id="chart_out"></div>
 	<div class="chart_in" id="chart_in"></div>
         <div>
-            <input type="button" value="データ1" id="btn1" />
-            <input type="button" value="データ2" id="btn2" />
+            <input type="button" value="前の日" id="btn1" />
+            <input type="button" value="次の日" id="btn2" />
             <button id="authorizeButton" onClick="connectGC();">connect</button>
         </div>
         <script src="./js/chart_out.js"></script>

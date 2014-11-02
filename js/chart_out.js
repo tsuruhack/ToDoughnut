@@ -68,6 +68,8 @@ var svg_out = d3.select("#chart_out")
 // 使いまわしたいので、ここで切ります。
 // 描画するだけなら続けて描いても同じです。
 
+/*
+
 var g_out = svg_out
 
 // 円はpathというタグで描画されるので、selectAllでまとめてタグを選択します。
@@ -85,6 +87,7 @@ var g_out = svg_out
 .append("g");
 
 // 円と文字を個別に設定するので、切ります。
+
 
 //円を描画します。
 g_out
@@ -132,17 +135,30 @@ g_out
 .each(function(d) {
     this._current = d;
 });
+*/
+
 
 //#btnにclickイベントを追加します。
-d3.select("#btn1").on("click",function (){arcAnime_out_left();} , false);
-d3.select("#btn2").on("click",function (){arcAnime_out_right();} , false);
+d3.select("#btn1").on("click",function (){move_to_left();} , false);
+d3.select("#btn2").on("click",function (){move_to_right();} , false);
+
+function move_to_left(){
+	gcTimedistance--;
+	getEventList(arcAnime_out_left);
+}
+
+function move_to_right(){
+	gcTimedistance++;
+	getEventList(arcAnime_out_right);
+}
+
 
 //clickイベントの関数を記述します。
 function arcAnime_out_left() {
     svg_out
     .selectAll("path")
     // 新しいデータを設定します。
-    .data(pie_out(dataset1_out))
+    .data(pie_out(gcViewdata.posi))
     // トランジションを設定するとアニメーションさせることができます。
     .transition()
     // アニメーションの秒数を設定します。
@@ -159,9 +175,9 @@ function arcAnime_out_left() {
     svg_out
     .selectAll("text")
     // 新しいデータを設定します。
-    .data(pie_out(dataset1_out))
+    .data(pie_out(gcViewdata.posi))
     //文字を更新します。
-    .text(function(d ,i) { return dataset1_text_out[i]; })
+    .text(function(d ,i) { return gcViewdata.summary[i]; })
     // トランジションを設定。
     .transition()
      // アニメーションの秒数を設定。
@@ -179,6 +195,7 @@ function arcAnime_out_left() {
 
 //clickイベントの関数を記述します。
 function arcAnime_out_right() {
+	console.log('gctd:'+gcTimedistance);
     svg_out
     .selectAll("path")
     // 新しいデータを設定します。
@@ -215,4 +232,72 @@ function arcAnime_out_right() {
         };
     });
     arcAnime(dataset4_in, dataset4_text_out);
+}
+
+
+
+function repaintView(){
+	
+var g_out = svg_out
+
+// 円はpathというタグで描画されるので、selectAllでまとめてタグを選択します。
+.selectAll("path")
+
+// dataでデータを設定します
+// 円グラフの場合は、事前に準備したpieを利用しないといけません。
+.data(pie_out(gcViewdata.posi))
+
+// 要素を自動で増やす時は、enterを使用します。
+.enter()
+
+//文字と一緒に円を扱いたいので、gを追加します。
+// dataとenterがあるので、データの分だけ自動で増えます。
+.append("g");
+
+	
+g_out
+
+// 円を描くpathを追加します。
+.append("path")
+
+// fillはsvgの塗りの属性です。
+// 関数で設定するとdataとindexを使えるので、事前に用意したcolorから
+// indexで色を取り出して設定します。
+.attr("fill", function(d, i) {
+    return color(i);
+})
+
+// d属性でpathをどう描くか決めます。
+// 事前に用意したarcで円を設定できるので、それを入れます。
+.attr("d", arc_out)
+
+// 今の数値を保存します。
+.each(function(d) {
+    this._current = d;
+});
+
+//文字を描画します。
+g_out
+
+// 文字をを描くtextを追加します。
+.append("text")
+
+// 文字の位置を円の要素の中心にします。
+.attr("transform", function(d) { return "translate(" + arc_out.centroid(d) + ")"; })
+
+// 文字の大きさを設定します。
+.attr("font-size", "10")
+
+.attr("fill", "#ffffff")
+
+// 文字の開始位置をセンターにします。
+.style("text-anchor", "middle")
+
+//文字の内容を入れます。
+.text(function(d, i) { return gcViewdata.summary[i]; })
+
+//eachで今の数値を保存します。
+.each(function(d) {
+    this._current = d;
+});
 }
