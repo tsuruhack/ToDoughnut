@@ -232,7 +232,7 @@ function set_gcViewdata(){
 		}
 		gcViewdata.posi.push(y);
 		gcViewdata.summary.push('');
-		gcViewdata.summary.push(gcEventList[i].description);
+		gcViewdata.summary.push(gcEventList[i].summary);
 		gcViewdata.description.push('');
 		gcViewdata.description.push(gcEventList[i].description);
 
@@ -252,6 +252,7 @@ function set_gcViewdata(){
 		}
 	}
 	
-	console.log('gcViewdata:'+gcViewdata.posi);
+	console.log('gcViewposi:'+gcViewdata.posi);
+	console.log('gcViewsum:'+gcViewdata.summary);
 }
 
