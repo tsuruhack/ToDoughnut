@@ -121,7 +121,7 @@ div#analog-clock div#hour-hand {
 		<!-- Popup Div Starts Here -->
 		<div id="popupContact">
 		<!-- Contact Us Form -->
-		<form action="#" id="formpop" method="post" name="form" class="pop">
+		<div id="formpop" name="form" class="pop">
 		<img id="close" src="images/batu.png" width="20" height="20" onclick ="div_hide()">
 		<h2 class="pop">予定を入力</h2>
 		<hr class="pop">
@@ -130,8 +130,8 @@ div#analog-clock div#hour-hand {
         end:<input type="time" id="edpop" value="13:00:00" step="900"></p>
 		<p><textarea id="msgpop" name="message" placeholder="詳細"></textarea></p>
 		<p><button type="button" value="作成" onClick="insertClick();">作成</button></p>
-		</form>
 		</div>
+        </div>
 		<!-- Popup Div Ends Here -->
 		</div>
 		<!-- Display Popup Button -->

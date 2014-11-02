@@ -1,7 +1,8 @@
 // Validating Empty Field
 function insertClick() {
 	document.getElementById('formpop').submit();
-	
+	var str = $('#namepop').val();
+	console.log(str);
 }
 
 //Function To Display Popup
