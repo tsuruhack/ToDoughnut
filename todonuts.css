@@ -2,6 +2,7 @@ body{
 	margin: 0;
 	font-family: "Comic Sans MS";
 	background-image:-webkit-linear-gradient(top, white,white,#ceffff) ;
+	overflow-x:hidden;
 }
 a {
 	text-decoration: none;
@@ -44,7 +45,7 @@ button:hover{
 	margin-left: 227px;
 	padding: 10px 0 0 25px;
 	height: 80px;
-	width: 100%;
+	width: calc(100% - 227px);
 	background-color: #efffff;
 	box-shadow: 0 -5px 20px grey;
 	display: -webkit-box;
@@ -258,6 +259,6 @@ button:hover{
 	position: relative;
 	left: 227px;
     bottom: 0;
-	width: 100%;
+	width: calc(100% - 227px);;
 	height: 80px;
 }

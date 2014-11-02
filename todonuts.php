@@ -97,7 +97,11 @@
 		}
 		engraph.css("height",width+"px");
 		engraph.css("margin-left",(-width/2-100)+"px");
-		$("#select-date").css("margin-left",(-width/2)+"px");
+		if(windowwidth < max+300){
+			$("#select-date").css("margin-left",(windowwidth/2-max)+"px");
+		}else{
+			$("#select-date").css("margin-left",(-width/2)+"px");
+		}
 		window.onresize=function(){
 			width=engraph.width();
 			windowwidth=window.innerWidth;
@@ -121,7 +125,11 @@
 			}
 			engraph.css("height",width+"px");
 			engraph.css("margin-left",(-width/2-100)+"px");
-			$("#select-date").css("margin-left",(-width/2)+"px");;
+			if(windowwidth < max+300){
+				$("#select-date").css("margin-left",(windowwidth/2-max)+"px");
+			}else{
+				$("#select-date").css("margin-left",(-width/2)+"px");;
+			}
 		};
 	</script>
 </body>
