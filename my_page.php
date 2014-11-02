@@ -12,6 +12,7 @@
 }
 .chart_in svg{
 	border-radius: 100%;
+	border-color: gray;
 }
 .clock{
 	position: absolute;
