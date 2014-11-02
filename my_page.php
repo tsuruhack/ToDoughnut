@@ -90,20 +90,28 @@ div#analog-clock div#hour-hand {
 </style>
 <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 <script src="http://code.jquery.com/jquery-2.1.1.js"></script>
+<script src="https://apis.google.com/js/client.js"></script>
+<script src="/js/googleCalendarAPI.js"></script>
 <script type="text/javascript" src="js/jquery.balloon.js"></script>
 </head>
 <body>
 	<div class="chart_in" id="chart_in"></div>
 	<div id="chart_out"></div>
         <div>
-            <input type="button" value="データ1" id="btn1" />
-            <input type="button" value="データ2" id="btn2" />
+            <input type="button" value="前の日" id="btn1" />
+            <input type="button" value="次の日" id="btn2" />
+            <button id="authorizeButton" onClick="connectGC();">connect</button>
         </div>
         <div id="analog-clock">
         <div id="numbers-container"></div>
         <div id="small-grad-container"></div>
         <div id="hour-hand" class="transition"></div>
         </div>
+         <script>
+		window.onload = function(){
+			connectGC();
+		}
+		</script>
         <div id="changeBackgroundColor" ></div>
         <script src="./js/clock.js"></script>
         <script src="./js/chart_in.js"></script>

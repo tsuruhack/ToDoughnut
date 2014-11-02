@@ -1,5 +1,9 @@
 // なにかしらのデータを用意
-var dataset1_out = [1, 2, 3, 4, 5, 20];
+var dataset1_out = [];
+for (var i=0;i<48;i++){
+	dataset1_out[i] = 1;
+}
+
 var dataset1_text_out = ["友達と遊ぶ", "宿題をやる", "妖怪ウォッチを見る", "踊る", "祈る", "寝る"];
 var dataset1_text_out_mension = ["友達と遊ぶのだー", "宿題をやるぜー！", "妖怪ウォッチを見るうううう", "踊るぜえええええ", "祈る", "寝る"];
 // アニメーション用にもうひとつ用意
@@ -71,6 +75,122 @@ var svg_out = d3.select("#chart_out")
 // 使いまわしたいので、ここで切ります。
 // 描画するだけなら続けて描いても同じです。
 
+//#btnにclickイベントを追加します。
+d3.select("#btn1").on("click",function (){move_to_left();} , false);
+d3.select("#btn2").on("click",function (){move_to_right();} , false);
+
+function move_to_left(){
+	gcTimedistance--;
+	getEventList(arcAnime_out_left);
+}
+
+function move_to_right(){
+	gcTimedistance++;
+	getEventList(arcAnime_out_right);
+}
+
+
+//clickイベントの関数を記述します。
+function arcAnime_out_left() {
+    svg_out
+    .selectAll("path")
+    // 新しいデータを設定します。
+    .data(pie_out(gcViewdata.posi))
+    // トランジションを設定するとアニメーションさせることができます。
+    .transition()
+    // アニメーションの秒数を設定します。
+    .duration(800)
+    .attr("fill", function(d, i) {
+	if(dataset1_text_out[i]==""){
+		return "#ffffff";
+	} else{
+        return color(i); 
+	}
+})
+    // アニメーションの間の数値を補完します。
+    .attrTween("d", function(d) {
+        var interpolate = d3.interpolate(this._current, d);
+        this._current = interpolate(0);
+        return function(t) {
+            return arc_out(interpolate(t));
+        };
+    });
+
+    svg_out
+    .selectAll("text")
+    // 新しいデータを設定します。
+    .data(pie_out(gcViewdata.posi))
+    //文字を更新します。
+    .text(function(d ,i) { return gcViewdata.summary[i]; })
+    // トランジションを設定。
+    .transition()
+     // アニメーションの秒数を設定。
+    .duration(800)
+    // アニメーションの間の数値を補完。
+    .attrTween("transform", function(d) {
+        var interpolate = d3.interpolate(arc_out.centroid(this._current), arc_out.centroid(d));
+        this._current = d;
+        return function(t) {
+                return "translate(" + interpolate(t) + ")";
+        };
+    });
+    arcAnime(dataset3_in, dataset3_text_in);
+    isClick = false;
+}
+
+//clickイベントの関数を記述します。
+function arcAnime_out_right() {
+	console.log('gctd:'+gcTimedistance);
+    svg_out
+    .selectAll("path")
+    // 新しいデータを設定します。
+    .data(pie_out(gcViewdata.posi))
+    // トランジションを設定するとアニメーションさせることができます。
+    .transition()
+    // アニメーションの秒数を設定します。
+    .duration(800)
+	.attr("fill", function(d, i) {
+	if(dataset2_text_out[i]==""){
+		return "#ffffff";
+	} else{
+        return color(i); 
+	}
+})
+    // アニメーションの間の数値を補完します。
+    .attrTween("d", function(d) {
+        var interpolate = d3.interpolate(this._current, d);
+        this._current = interpolate(0);
+        return function(t) {
+            return arc_out(interpolate(t));
+        };
+    });
+
+    svg_out
+    .selectAll("text")
+    // 新しいデータを設定します。
+    .data(pie_out(gcViewdata.posi))
+    //文字を更新します。
+    .text(function(d, i) {return gcViewdata.summary[i]; })
+    // トランジションを設定。
+    .transition()
+     // アニメーションの秒数を設定。
+    .duration(800)
+    // アニメーションの間の数値を補完。
+    .attrTween("transform", function(d) {
+        var interpolate = d3.interpolate(arc_out.centroid(this._current), arc_out.centroid(d));
+        this._current = d;
+        return function(t) {
+                return "translate(" + interpolate(t) + ")";
+        };
+    });
+    arcAnime(dataset4_in, dataset4_text_in);
+    isClick = true;
+}
+
+
+
+function repaintView(){
+	
 var g_out = svg_out
 
 // 円はpathというタグで描画されるので、selectAllでまとめてタグを選択します。
@@ -78,47 +198,16 @@ var g_out = svg_out
 
 // dataでデータを設定します
 // 円グラフの場合は、事前に準備したpieを利用しないといけません。
-.data(pie_out(dataset1_out))
+.data(pie_out(gcViewdata.posi))
 
 // 要素を自動で増やす時は、enterを使用します。
 .enter()
 
 //文字と一緒に円を扱いたいので、gを追加します。
 // dataとenterがあるので、データの分だけ自動で増えます。
-.append("g")
-.on("mouseover",  function(d, i){ 
-	change_out(i); })
-    .on("mouseout",   function(d){
-    	changeGray_out();
-    });
-    
- // 円と文字を個別に設定するので、切ります。
-    	
+.append("g");
 
-
-function change_out(i) {
-	if(!isClick){
-		if(dataset1_text_out[i] != ""){
-    	document.getElementById( "changeBackgroundColor" ).style.backgroundColor = color(i);
-    }else {
-    	chageGray_out();
-    }
-	}else{
-		if(dataset2_text_out[i] != ""){
-    	document.getElementById( "changeBackgroundColor" ).style.backgroundColor = color(i);
-    }else {
-    	chageGray_out();
-    }
-	}
-   　　　$('#changeBackgroundColor').text(!isClick ? dataset1_text_out_mension[i] : dataset2_text_out_mension[i]);
-}
-function changeGray_out() {
-    document.getElementById( "changeBackgroundColor" ).style.backgroundColor = "gray";
-    $('#changeBackgroundColor').text("");
-}
-
-
-//円を描画します。
+	
 g_out
 
 // 円を描くpathを追加します。
@@ -169,7 +258,7 @@ g_out
 .style("text-anchor", "middle")
 
 //文字の内容を入れます。
-.text(function(d, i) { return dataset1_text_out[i]; })
+.text(function(d, i) { return gcViewdata.summary[i]; })
 
 //eachで今の数値を保存します。
 .each(function(d) {
@@ -186,103 +275,4 @@ g_out
             return arc_out(interpolate(t)); // 時間に応じて処理
         }
     });
-
-//#btnにclickイベントを追加します。
-d3.select("#btn1").on("click",function (){arcAnime_out_left();} , false);
-d3.select("#btn2").on("click",function (){arcAnime_out_right();} , false);
-
-//clickイベントの関数を記述します。
-function arcAnime_out_left() {
-    svg_out
-    .selectAll("path")
-    // 新しいデータを設定します。
-    .data(pie_out(dataset1_out))
-    // トランジションを設定するとアニメーションさせることができます。
-    .transition()
-    // アニメーションの秒数を設定します。
-    .duration(800)
-    .attr("fill", function(d, i) {
-	if(dataset1_text_out[i]==""){
-		return "#ffffff";
-	} else{
-        return color(i); 
-	}
-})
-    // アニメーションの間の数値を補完します。
-    .attrTween("d", function(d) {
-        var interpolate = d3.interpolate(this._current, d);
-        this._current = interpolate(0);
-        return function(t) {
-            return arc_out(interpolate(t));
-        };
-    });
-
-    svg_out
-    .selectAll("text")
-    // 新しいデータを設定します。
-    .data(pie_out(dataset1_out))
-    //文字を更新します。
-    .text(function(d ,i) { return dataset1_text_out[i]; })
-    // トランジションを設定。
-    .transition()
-     // アニメーションの秒数を設定。
-    .duration(800)
-    // アニメーションの間の数値を補完。
-    .attrTween("transform", function(d) {
-        var interpolate = d3.interpolate(arc_out.centroid(this._current), arc_out.centroid(d));
-        this._current = d;
-        return function(t) {
-                return "translate(" + interpolate(t) + ")";
-        };
-    });
-    arcAnime(dataset3_in, dataset3_text_in);
-    isClick = false;
-}
-
-//clickイベントの関数を記述します。
-function arcAnime_out_right() {
-    svg_out
-    .selectAll("path")
-    // 新しいデータを設定します。
-    .data(pie_out(dataset2_out))
-    // トランジションを設定するとアニメーションさせることができます。
-    .transition()
-    // アニメーションの秒数を設定します。
-    .duration(800)
-	.attr("fill", function(d, i) {
-	if(dataset2_text_out[i]==""){
-		return "#ffffff";
-	} else{
-        return color(i); 
-	}
-})
-    // アニメーションの間の数値を補完します。
-    .attrTween("d", function(d) {
-        var interpolate = d3.interpolate(this._current, d);
-        this._current = interpolate(0);
-        return function(t) {
-            return arc_out(interpolate(t));
-        };
-    });
-
-    svg_out
-    .selectAll("text")
-    // 新しいデータを設定します。
-    .data(pie_out(dataset2_out))
-    //文字を更新します。
-    .text(function(d, i) {return dataset2_text_out[i]; })
-    // トランジションを設定。
-    .transition()
-     // アニメーションの秒数を設定。
-    .duration(800)
-    // アニメーションの間の数値を補完。
-    .attrTween("transform", function(d) {
-        var interpolate = d3.interpolate(arc_out.centroid(this._current), arc_out.centroid(d));
-        this._current = d;
-        return function(t) {
-                return "translate(" + interpolate(t) + ")";
-        };
-    });
-    arcAnime(dataset4_in, dataset4_text_in);
-    isClick = true;
 }
