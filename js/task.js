@@ -57,6 +57,7 @@ $(function(){
 	//リストから新規作成するとき
 	//OKボタンが押されたとき
 	$(document).on("click","#simpleOK",function(){
+	//	$("#form1").submit(function(){
 		var task_title="タスク"+i;
 		var date=$("#date").val();
 		var day=date.match(/\d+/g)[0]*100+date.match(/\d+/g)[1]*1+date.match(/\d+/g)[2];
@@ -65,18 +66,19 @@ $(function(){
 		if($("#memo").val()) memo=$("#memo").val();
 		
 
-		User1.push(new task(i,task_title,day,memo,null,null,null));
+		User1.push(new task(j,task_title,day,memo,null,null,null));
 		User1=_.sortBy(User1,'date');
-		console.log(User1);
-		var k=0;
+		//console.log(User1);
+		
 		$(".task-icon").remove();
 		for(var j=0;User1[j];j++){
-			console.log(j);
+			//console.log(j);
+			
 			task_title=User1[j].titlename;
 			memo=User1[j].memo;
 			day=User1[j].date;
 
-			$(".menu").append("<div class='task-icon'><li id='task"+j+"' class='list'><h5 data-sort='name'>"+task_title+"</h5><h7 data-sort='date'>"+parseInt((day%10000)/100)+"/"+(day%100)+"</h7><button class='finish right'>完了</button></li><li id='detail"+j+"' class='detail'><h6>"+parseInt((day%10000)/100)+"月"+(day%100)+"日まで<br>コメント:"+memo+"</h6></li></div>");
+			$(".menu").append("<div class='task-icon'><li id='task"+j+"' class='list'><h5 data-sort='name'>"+task_title+"</h5><h7 data-sort='date'>"+parseInt((day%10000)/100)+"/"+(day%100)+"</h7><button class='finish right'>完了</button></li><li id='detail"+j+"' class='detail'><h6>タスク:"+task_title+"</h6><h6>期限:"+parseInt((day%10000)/100)+"月"+(day%100)+"日<br>コメント:"+memo+"</h6></li></div>");
 			$("+.detail","#task"+j).hide();
 
 			$("#task-title").val("");
@@ -86,7 +88,15 @@ $(function(){
 	});
 
 	$(document).on("click",".finish",function(){
-		alert("finish!");
+		
+		var n= $(this).parent("li").attr("id").substr(4,1);
+		$("#detail"+n).remove();
+		$("#task"+n).remove();
+		User1.splice(n,1);
+		//console.log(User1);
 	});
 
+	$(document).on("click",".day",function(){
+		alert($(".monthName").text()+" "+this.innerHTML);
+	});
 });

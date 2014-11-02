@@ -23,10 +23,9 @@ h6{
 	font-size: 10px;
 }
 h7{
+	position: absolute;
 	font-size: 15px;
-	margin-left: 20px;
-	margin-top: 50px;
-	margin-right: 20px;
+	right: 70px;
 }
 p{
 	font-family: "Comic Sans MS";
@@ -202,7 +201,7 @@ button:hover{
 	color: #1f7d8f;
 }
 .list{
-	width: 220px;
+	width: 227px;
 	height: 40px;
 	border-bottom: 1px solid #ccc;
 	border-top: 1px solid #ccc;
