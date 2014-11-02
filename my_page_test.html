@@ -7,10 +7,17 @@
 <style>
 .chart_in{
 	position: absolute;
-	top: 8px;
+	top: 98px;
+	left: 99px;
+}
+.chart_in svg{
+	border-radius: 100%;
+	pointer-events: visibleFill;
 }
 .clock{
 	position: absolute;
+	width: 200px;
+	height: 200px;
 	top: 170px;
 	left:170px;
 }
@@ -80,12 +87,22 @@ div#analog-clock div#hour-hand {
     color: white;
 }
 </style>
+<script src="js/jquery.tooltipster.js"></script>
+<link rel="stylesheet" type="text/css" href="css/reset.css" />
+<link rel="stylesheet" type="text/css" href="css/style.css" />
+<link rel="stylesheet" type="text/css" href="css/tooltipster.css" />
+ 
+<link rel="stylesheet" type="text/css" href="css/themes/tooltipster-light.css" />
+<link rel="stylesheet" type="text/css" href="css/themes/tooltipster-noir.css" />
+<link rel="stylesheet" type="text/css" href="css/themes/tooltipster-punk.css" />
+<link rel="stylesheet" type="text/css" href="css/themes/tooltipster-shadow.css" />
 <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 <script src="http://code.jquery.com/jquery-2.1.1.js"></script>
+<script type="text/javascript" src="./js/jquery.balloon.js"></script>
 </head>
 <body>
-	<div id="chart_out"></div>
 	<div class="chart_in" id="chart_in"></div>
+	<div id="chart_out"></div>
         <div>
             <input type="button" value="データ1" id="btn1" />
             <input type="button" value="データ2" id="btn2" />
@@ -101,9 +118,12 @@ div#analog-clock div#hour-hand {
     <span id="colorSelectorBlue">　　青　　</span>
     <span id="colorSelectorGreen">　　緑　　</span>
 </div>
+<a href="#" title="ここの内容が表示されます">リンクです</a>
         <script src="./js/clock.js"></script>
-        <script src="./js/chart_out.js"></script>
         <script src="./js/chart_in.js"></script>
-        <script src="./js/on_chart.js"></script>
+        <script src="./js/chart_out.js"></script>
+        <script type="text/javascript">
+$('a').balloon();
+</script>
 </body>
 </html>

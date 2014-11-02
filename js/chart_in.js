@@ -6,9 +6,11 @@ var dataset6 = [16, 17, 18, 19, 20];
 
 // SVGの横幅
 var width = 480;
+var width_out = 300;
 
 // SVGの縦幅
 var height = 480;
+var height_out = 300;
 
 // 円の大きさ
 var radius = Math.min(width, height) / 2 - 10;
@@ -44,14 +46,14 @@ var svg = d3.select("#chart_in")
 .append("svg")
 
 // attrでタグの属性を設定します。
-.attr("width", width).attr("height", height)
+.attr("width", width_out).attr("height", height_out)
 
 // appendでsvgのgタグ（グループ要素）を追加します。
 // svg内で描画すると、いくつもタグができるので、まとめて動かすときに便利です。
 .append("g")
 
 // 描画場所をsvgの中央にします。
-.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+.attr("transform", "translate(" + width_out / 2 + "," + height_out / 2 + ")");
 
 // 使いまわしたいので、ここで切ります。
 // 描画するだけなら続けて描いても同じです。
@@ -70,7 +72,9 @@ var g = svg
 
 //文字と一緒に円を扱いたいので、gを追加します。
 // dataとenterがあるので、データの分だけ自動で増えます。
-.append("g");
+.append("g")
+    .on("mouseover",  function(d, i){ changeRed(d, i); })
+    .on("mouseout",   function(d){ changeGray(); });
 
 // 円と文字を個別に設定するので、切ります。
 
@@ -84,6 +88,7 @@ g
 // 関数で設定するとdataとindexを使えるので、事前に用意したcolorから
 // indexで色を取り出して設定します。
 .attr("fill", function(d, i) {
+	console.log(d, i);
     return color(i);
 })
 
@@ -106,6 +111,17 @@ g
             return arc(interpolate(t)); // 時間に応じて処理
         }
     });
+    
+    function changeRed(d, i) {
+    	document.getElementById( "changeBackgroundColor" ).style.backgroundColor = color(i);
+   $('#changeBackgroundColor').text(dataset2_text_out_mension[i]);
+    console.log(i);
+}
+function changeGray() {
+    document.getElementById( "changeBackgroundColor" ).style.backgroundColor = "gray";
+   $('#changeBackgroundColor').text("");
+    $('#chart_in').hideBalloon();
+}
 
 //文字を描画します。
 g
@@ -125,7 +141,7 @@ g
 .style("text-anchor", "middle")
 
 //文字の内容を入れます。
-.text(function(d, i) { return dataset3_text_out[i]; })
+.text(function(d, i) { return dataset5_text_out[i]; })
 
 //eachで今の数値を保存します。
 .each(function(d) {
