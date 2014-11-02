@@ -1,21 +1,13 @@
 window.onload = initialize;
 function initialize() {
-    document.getElementById( "colorSelectorRed" ).onmouseover = changeRed;
-    document.getElementById( "colorSelectorBlue" ).onmouseover = changeBlue;
-    document.getElementById( "colorSelectorGreen" ).onmouseover = changeGreen;
-    document.getElementById( "colorSelectorRed" ).onmouseout = changeGray;
-    document.getElementById( "colorSelectorBlue" ).onmouseout = changeGray;
-    document.getElementById( "colorSelectorGreen" ).onmouseout = changeGray;
+    document.getElementById( "chart_out" ).onmousemove = changeRed;
+    document.getElementById( "chart_out" ).onmouseout = changeGray;
 }
-function changeGray() {
+function changeGray(e) {
     document.getElementById( "changeBackgroundColor" ).style.backgroundColor = "gray";
 }
 function changeRed() {
     document.getElementById( "changeBackgroundColor" ).style.backgroundColor = "red";
-}
-function changeBlue() {
-    document.getElementById( "changeBackgroundColor" ).style.backgroundColor = "blue";
-}
-function changeGreen() {
-    document.getElementById( "changeBackgroundColor" ).style.backgroundColor = "green";
+    // 出力テスト
+	console.log(e);
 }
