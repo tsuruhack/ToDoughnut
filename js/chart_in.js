@@ -7,22 +7,32 @@ var dataset6 = [16, 17, 18, 19, 20];
 // SVGの横幅
 var width = 480;
 var width_out = 300;
+//var width_out=$("#chart_in").width();
 
 var isClick = false;
 
 // SVGの縦幅
 var height = 480;
+//var height=$("#chart_in").width();
 var height_out = 300;
+//var height_out=$("#chart_in").width();
 
 // 円の大きさ
 var radius = Math.min(width, height) / 2 - 10;
+//var radius=240;
 
 // 外側の円の大きさ
 var outerRadius = radius - 80;
+//var outerRadius = radius*0.7;
 
 // 内側の円の大きさ。
 // 穴をあけるときは数値を設定。0にすると穴はあかない。
 var innerRadius = radius - 150;
+//var innerRadius = radius*0.3;
+// $("#old-clock").css("width",(radius*0.6)+"px");
+// $(".clock-board").css("width",(radius*0.6)+"px");
+// $("#old-clock").css("margin-left",(innerRadius)+"px");
+// $("#old-clock").css("margin-top",(innerRadius)+"px");
 
 // 色を10色用意する関数。色は下記の通り。
 // #1f77b4 #ff7f0e #2ca02c #d62728 #9467bd
