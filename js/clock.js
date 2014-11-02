@@ -29,21 +29,18 @@ for (var i = 0; i < 60; i = i + 3) {
     $thisGrad.appendTo($smallGradContainer);
 }
 
-var rotateCountHour = 0;
-var time = Math.floor((new Date()).getTime() / 1000);
-var hour = time % (60 * 60 * 24);
-if (hour == 0) {
-    rotateCountHour++;
-}
-var rotateCountScond = 0;
-var clockFunc = function(){
-    var time = Math.floor((new Date()).getTime() / 1000);
-    var second = time % 60;
-    if (second == 0) {
-        rotateCountScond ++;
-    }
+function analog_clock(){
+    today = new Date();
+    var minute = today.getMinutes();
+    var hour = today.getHours();
     $('#hour-hand').css({
-        'transform':'rotate('+((360*rotateCountScond)+(360/60)*second)+'deg)'
+        'transform':'rotate('+hour*30+minute/2+'deg)'
     });
-};
-setInterval(clockFunc, 1000);
+    console.log(hour,minute); 
+    setTimeout("analog_clock()",1000);
+}
+
+$(document).ready(function(){
+    analog_clock();
+});
+
