@@ -5,16 +5,18 @@ var dataset1_text_out_mension = ["友達と遊ぶのだー", "宿題をやるぜ
 // アニメーション用にもうひとつ用意
 var dataset2_out = [6, 7, 8, 9, 10, 0];
 var dataset2_text_out = ["妖怪ウォッチ", "妖怪ウォッチ", "妖怪ウォッチ", "妖怪ウォッチ", "妖怪ウォッチ"];
-dataset2_text_out_mension= ["任期満了に伴う熊本市長の３氏\nによる討論会が１日、熊本市北区\n徳王１丁目のテレ",
+var dataset2_text_out_mension= ["任期満了に伴う熊本市長の３氏\nによる討論会が１日、熊本市北区\n徳王１丁目のテレ",
 "うほ!!","うううううううん",
 "他人からのアドバイスはいつもありがたいもの。だが時として「余計なお世話」と感じるような意味不明なもの、上から目線のものがあるのも確かだ。今回はマイナビニュース会員のうち男女300名に、仕事で人からも ……",
 "say year!"]
 // なにかしらのデータを用意
 var dataset3_in = [19, 12, 13, 14, 15];
-var dataset3_text_out = ["妖怪ウォッチ", "妖怪ウォッチ", "妖怪ウォッチ", "妖怪ウォッチ", "妖怪ウォッチ"];
+var dataset3_text_in = ["妖怪ウォッチ", "妖怪ウォッチ", "妖怪ウォッチ", "", "妖怪ウォッチ"];
+var dataset3_text_in_mention = ["妖怪ウォッチぐへへへへ", "妖怪ウォッチぐへへへへへ", "妖怪ウォッチ", "", "妖怪ウォッチ"];
 // アニメーション用にもうひとつ用意
 var dataset4_in = [16, 17, 18, 19, 20];
-var dataset4_text_out = ["妖怪ウォッチ", "妖怪ウォッチ", "妖怪ウォッチ", "妖怪ウォッチ", "妖怪ウォッチ"];
+var dataset4_text_in = ["妖怪ウォッチ", "妖怪ウォッチ", "妖怪ウォッチ", "妖怪ウォッチ", "妖怪ウォッチ"];
+var dataset4_text_in_mention = ["妖怪ウォッチ", "妖怪ウォッチぬほほほほ", "妖怪ウォッチぬほほほほ", "", "妖怪ウォッチ"];
 // SVGの横幅
 var width = 480;
 
@@ -95,8 +97,20 @@ var g_out = svg_out
 
 
 function change_out(i) {
+	if(!isClick){
+		if(dataset1_text_out[i] != ""){
     	document.getElementById( "changeBackgroundColor" ).style.backgroundColor = color(i);
-   $('#changeBackgroundColor').text(dataset1_text_out_mension[i]);
+    }else {
+    	chageGray_out();
+    }
+	}else{
+		if(dataset2_text_out[i] != ""){
+    	document.getElementById( "changeBackgroundColor" ).style.backgroundColor = color(i);
+    }else {
+    	chageGray_out();
+    }
+	}
+   　　　$('#changeBackgroundColor').text(!isClick ? dataset1_text_out_mension[i] : dataset2_text_out_mension[i]);
 }
 function changeGray_out() {
     document.getElementById( "changeBackgroundColor" ).style.backgroundColor = "gray";
@@ -187,6 +201,13 @@ function arcAnime_out_left() {
     .transition()
     // アニメーションの秒数を設定します。
     .duration(800)
+    .attr("fill", function(d, i) {
+	if(dataset1_text_out[i]==""){
+		return "#ffffff";
+	} else{
+        return color(i); 
+	}
+})
     // アニメーションの間の数値を補完します。
     .attrTween("d", function(d) {
         var interpolate = d3.interpolate(this._current, d);
@@ -214,7 +235,8 @@ function arcAnime_out_left() {
                 return "translate(" + interpolate(t) + ")";
         };
     });
-    arcAnime(dataset3_in, dataset3_text_out);
+    arcAnime(dataset3_in, dataset3_text_in);
+    isClick = false;
 }
 
 //clickイベントの関数を記述します。
@@ -227,6 +249,13 @@ function arcAnime_out_right() {
     .transition()
     // アニメーションの秒数を設定します。
     .duration(800)
+	.attr("fill", function(d, i) {
+	if(dataset2_text_out[i]==""){
+		return "#ffffff";
+	} else{
+        return color(i); 
+	}
+})
     // アニメーションの間の数値を補完します。
     .attrTween("d", function(d) {
         var interpolate = d3.interpolate(this._current, d);
@@ -254,5 +283,6 @@ function arcAnime_out_right() {
                 return "translate(" + interpolate(t) + ")";
         };
     });
-    arcAnime(dataset4_in, dataset4_text_out);
+    arcAnime(dataset4_in, dataset4_text_in);
+    isClick = true;
 }
