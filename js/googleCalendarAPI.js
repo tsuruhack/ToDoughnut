@@ -82,20 +82,25 @@ function getEventList(callback){
       for (var i in resp.items){
         // 予定開始日時/終了日時とイベントIDを表示用の48配列に入れる
         var a = resp.items[i];
+        console.log(a);
 		sttime = startDate.getTime();
 		edtime = endDate.getTime();
         console.debug('start:' + a.start.dateTime + ' end:' + a.end.dateTime + 
         'summary:' + a.summary + ' eventid:' + a.id);
 		//startTimeを設定
 		var ji = Number(a.start.dateTime.substr(11,2));
+		//var ji = a.start.date.substr(5,2);
 		var hun = Number(a.start.dateTime.substr(14,2));
+		//var hun = a.start.date.substr(8,2);
 		ji = (ji % 12) * 4;
 		hun = (hun / 15);
 		var x = ji + hun;
 		
 		//endTimeを設定
 		var ji = Number(a.end.dateTime.substr(11,2));
+		//var ji = a.end.date.substr(5,2);
 		var hun = Number(a.end.dateTime.substr(14,2));
+		//var hun = a.end.date.substr(8,2);
 		ji = (ji % 12) * 4;
 		hun = (hun / 15);
 		var y = ji + hun;

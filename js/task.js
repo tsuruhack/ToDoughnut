@@ -11,7 +11,7 @@ function usr(num,task){
 	this.num=num;
 	this.task=task;
 }
-var User1 = [];
+var User1 = [];//ユーザー1のタスクを入れる配列
 var i=0;
 
 $(function(){
@@ -87,16 +87,80 @@ $(function(){
 		i++;
 	});
 
+	//完了ボタンを押してタスクを消す
 	$(document).on("click",".finish",function(){
 		
 		var n= $(this).parent("li").attr("id").substr(4,1);
 		$("#detail"+n).remove();
 		$("#task"+n).remove();
 		User1.splice(n,1);
-		//console.log(User1);
+		console.log($(this).parent("li").attr("id"));
 	});
 
 	$(document).on("click",".day",function(){
 		alert($(".monthName").text()+" "+this.innerHTML);
 	});
+
+		
+		//circle-graphを常に正方形にする
+		var max=600;
+		var engraph=$("#circle-graph");
+		var width=engraph.width();
+		var windowwidth=window.innerWidth,windowheight=window.innerHeight;
+		var shorter;
+
+
+		console.log(windowwidth+" "+windowheight);
+		if(windowwidth > max+300 && windowheight > max+100){
+			engraph.css("width",max+"px");
+			width=engraph.width();
+		}else if(windowwidth >= max+300 && windowheight < max+100){
+			engraph.css("width",(windowheight-100)+"px");
+			width=engraph.width();
+		}else if(windowwidth < max+300 && windowheight >= max+100){
+			engraph.css("width",(windowwidth-300)+"px");
+			width=engraph.width();
+		}else{
+			if(windowwidth-300 > windowheight-100){ shorter = windowheight-100;
+			}else{ shorter = windowwidth-300; }
+			engraph.css("width",shorter+"px");
+			width=engraph.width();
+		}
+		engraph.css("height",width+"px");
+		engraph.css("margin-left",(-width/2)+"px");
+		if(windowwidth < max+300){
+			$("#select-date").css("margin-left","0px");
+		}else{
+			$("#select-date").css("margin-left",(-width/2+100)+"px");
+		}
+		//画面サイズを変えたら
+		window.onresize=function(){
+			width=engraph.width();
+			windowwidth=window.innerWidth;
+			windowheight=window.innerHeight;
+			console.log(windowwidth+" "+windowheight);
+			if(windowwidth >= max+300 && windowheight >= max+100){
+				engraph.css("width",max+"px");
+				width=engraph.width();
+			}else if(windowwidth >= max+300 && windowheight < max+100){
+				engraph.css("width",(windowheight-100)+"px");
+				width=engraph.width();
+			}else if(windowwidth < max+300 && windowheight >= max+100){
+				engraph.css("width",(windowwidth-300)+"px");
+				width=engraph.width();
+			}else{
+				if(windowwidth-300 > windowheight-100){ shorter = windowheight-100;
+				}else{ shorter = windowwidth-300; }
+				engraph.css("width",shorter+"px");
+				width=engraph.width();
+			}
+			engraph.css("height",width+"px");
+			engraph.css("margin-left",(-width/2)+"px");
+			if(windowwidth < max+300){
+				$("#select-date").css("margin-left","0px");
+			}else{
+				$("#select-date").css("margin-left",(-width/2+100)+"px");;
+			}
+		};
+	//});
 });

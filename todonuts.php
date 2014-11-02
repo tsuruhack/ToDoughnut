@@ -2,14 +2,20 @@
 <head>
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>main</title>
-	<link rel="stylesheet" href="./todonuts.css">
+
+	<link rel="stylesheet" href="./css/todonuts.css">
 	<link rel="stylesheet" type="text/css" href="./jCal/jCal.css">
-	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"> </script>
-	<script type="text/javascript" src="http://yourdomain/jquery.js"></script>
+	<script src="http://code.jquery.com/jquery-2.1.1.js"></script>
+	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
+	<script src="https://apis.google.com/js/client.js"></script>
+	<script src="/js/googleCalendarAPI.js"></script>
+	<script type="text/javascript" src="js/jquery.balloon.js"></script>
 	<script type="text/javascript" src="./jCal/jquery.animate.clip.js"></script>
 	<script type="text/javascript" src="./jCal/jCal.min.js"></script>
 	<script type="text/javascript" src="./js/task.js"></script>
 	<script type="text/javascript" src="./js/sort.js"></script>
+	
+
 </head>
 <body>
 	
@@ -17,10 +23,10 @@
 		$var="Hello World!!!";
 	?>
 	<div id="header">
-		<img class="image1" src="./images/donuts_icon2.gif">
+		<img class="image1" src="./images/donuts_icon3.gif">
 		<div class="title-name"><img class="image2" src="./images/todonuts_title.gif"></div>
 		<div class="my-account">
-			<p>log inする</p>
+			<p id="authorizeButton" onClick="connectGC();">log inする</p>
 		</div>
 	</div>
 	<div id="body">
@@ -54,15 +60,39 @@
 			
 			<div id="main-footer">
 				<div id="select-date">
-					<button class="left"><p>＜</p></button>
+					<button id="btn1" class="left"><p>＜</p></button>
 					<!-- <button class="left"><p>月</p></button>
 					<button class="in"><p>週</p></button>
 					<button class="right"><p>日</p></button> -->
 					<p id="date">2014年11月1日PM</p>
-					<button class="right"><p>＞</p></button>
+					<button id="btn2" class="right"><p>＞</p></button>
 				</div>
 			</div>
-			<div id="circle-graph"></div>
+
+			<!--ここからドーナツグラフ-->
+			<div id="circle-graph">
+				<div class="chart_in" id="chart_in"></div>
+			    <div id="chart_out">
+			    	<div id="old-clock"><img class="clock-board" src="./images/clock.gif"></div>
+			    </div>
+			    <div id="analog-clock">
+			    	<div id="hour-hand" class="transition"></div>
+			    </div>
+		        <!-- <div>
+		            <input type="button" value="前の日" id="btn1" />
+		            <input type="button" value="次の日" id="btn2" />
+		            <button id="authorizeButton" onClick="connectGC();">connect</button>
+		        </div> -->
+		        <!-- <div id="analog-clock">
+		        	<div id="numbers-container"></div>
+		        	<div id="small-grad-container"></div>
+		        	<div id="hour-hand" class="transition"></div>
+		        </div> -->
+		        
+				<div id="changeBackgroundColor" ></div>
+
+			</div>
+
 		</div>
 	</div>
 	
@@ -70,68 +100,17 @@
 		<h2>Tsuruhack©</h2>
 	</div>
 	<script type="text/javascript">
-		$(document).ready(function () {
-		$('#calendar').jCal();
-		});
-		//circle-graphを常に正方形にする
-		var max=600;
-		var engraph=$("#circle-graph");
-		var width=engraph.width();
-		var windowwidth=window.innerWidth,windowheight=window.innerHeight;
-		var shorter;
+		window.onload = function(){
+			connectGC();
+		}
 
-		console.log(windowwidth+" "+windowheight);
-		if(windowwidth > max+300 && windowheight > max+100){
-			engraph.css("width",max+"px");
-			width=engraph.width();
-		}else if(windowwidth >= max+300 && windowheight < max+100){
-			engraph.css("width",(windowheight-100)+"px");
-			width=engraph.width();
-		}else if(windowwidth < max+300 && windowheight >= max+100){
-			engraph.css("width",(windowwidth-300)+"px");
-			width=engraph.width();
-		}else{
-			if(windowwidth-300 > windowheight-100){ shorter = windowheight-100;
-			}else{ shorter = windowwidth-300; }
-			engraph.css("width",shorter+"px");
-			width=engraph.width();
-		}
-		engraph.css("height",width+"px");
-		engraph.css("margin-left",(-width/2)+"px");
-		if(windowwidth < max+300){
-			$("#select-date").css("margin-left","0px");
-		}else{
-			$("#select-date").css("margin-left",(-width/2+100)+"px");
-		}
-		window.onresize=function(){
-			width=engraph.width();
-			windowwidth=window.innerWidth;
-			windowheight=window.innerHeight;
-			console.log(windowwidth+" "+windowheight);
-			if(windowwidth >= max+300 && windowheight >= max+100){
-				engraph.css("width",max+"px");
-				width=engraph.width();
-			}else if(windowwidth >= max+300 && windowheight < max+100){
-				engraph.css("width",(windowheight-100)+"px");
-				width=engraph.width();
-			}else if(windowwidth < max+300 && windowheight >= max+100){
-				engraph.css("width",(windowwidth-300)+"px");
-				width=engraph.width();
-			}else{
-				if(windowwidth-300 > windowheight-100){ shorter = windowheight-100;
-				}else{ shorter = windowwidth-300; }
-				engraph.css("width",shorter+"px");
-				width=engraph.width();
-			}
-			engraph.css("height",width+"px");
-			engraph.css("margin-left",(-width/2)+"px");
-			if(windowwidth < max+300){
-				$("#select-date").css("margin-left","0px");
-			}else{
-				$("#select-date").css("margin-left",(-width/2+100)+"px");;
-			}
-		};
+		$(document).ready(function () {
+			$('#calendar').jCal();
+		});
 	</script>
+	<script src="./js/clock.js"></script>
+    <script src="./js/chart_in.js"></script>
+    <script src="./js/chart_out.js"></script>
 </body>
 
 </html>
