@@ -93,6 +93,8 @@ div#analog-clock div#hour-hand {
 <script src="https://apis.google.com/js/client.js"></script>
 <script src="/js/googleCalendarAPI.js"></script>
 <script type="text/javascript" src="js/jquery.balloon.js"></script>
+<script src="/js/popupContact.js"></script>
+<link rel="stylesheet" type="text/css" href="/css/popupContact.css">
 </head>
 <body>
 	<div class="chart_in" id="chart_in"></div>
@@ -107,13 +109,36 @@ div#analog-clock div#hour-hand {
         <div id="small-grad-container"></div>
         <div id="hour-hand" class="transition"></div>
         </div>
-         <script>
+        <script>
 		window.onload = function(){
 			connectGC();
 		}
 		</script>
         <div id="changeBackgroundColor" ></div>
-        <script src="./js/clock.js"></script>
+        
+        <!-- PopupContact -->
+        <div id="abc">
+		<!-- Popup Div Starts Here -->
+		<div id="popupContact">
+		<!-- Contact Us Form -->
+		<form action="#" id="formpop" method="post" name="form" class="pop">
+		<img id="close" src="images/batu.png" width="20" height="20" onclick ="div_hide()">
+		<h2 class="pop">予定を入力</h2>
+		<hr class="pop">
+		<p><input id="namepop" name="name" placeholder="タイトル" type="text" class="pop"></p>
+        <p>start:<input type="time" id="stpop" value="13:00:00" step="900">
+        end:<input type="time" id="edpop" value="13:00:00" step="900"></p>
+		<p><textarea id="msgpop" name="message" placeholder="詳細"></textarea></p>
+		<p><button type="button" value="作成" onClick="insertClick();">作成</button></p>
+		</form>
+		</div>
+		<!-- Popup Div Ends Here -->
+		</div>
+		<!-- Display Popup Button -->
+		<h1 class="pop">Click Button To Popup Form Using Javascript</h1>
+		<button id="popup" onclick="div_show()" class="pop">Popup</button>
+        
+		<script src="./js/clock.js"></script>
         <script src="./js/chart_in.js"></script>
         <script src="./js/chart_out.js"></script>
 </body>

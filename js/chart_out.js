@@ -24,8 +24,6 @@ var dataset4_text_in_mention = ["妖怪ウォッチ", "妖怪ウォッチぬほ�
 // SVGの横幅
 var width = 480;
 
-var isClick = false;
-
 // SVGの縦幅
 var height = 480;
 
@@ -136,7 +134,6 @@ function arcAnime_out_left() {
         };
     });
     arcAnime(dataset3_in, dataset3_text_in);
-    isClick = false;
 }
 
 //clickイベントの関数を記述します。
@@ -186,25 +183,12 @@ function arcAnime_out_right() {
         };
     });
     arcAnime(dataset4_in, dataset4_text_in);
-    isClick = true;
 }
 
 function changeRed_out(d, i) {
-    	if(!isClick){
-		if(dataset1_text_out[i] != ""){
-    	document.getElementById( "changeBackgroundColor" ).style.backgroundColor = color(i);
-    }else {
-    	chageGray_out();
-    }
-	}else{
-		if(dataset2_text_out[i] != ""){
-    	document.getElementById( "changeBackgroundColor" ).style.backgroundColor = color(i);
-    }else {
-    	chageGray_out();
-    }
-	}
-   $('#changeBackgroundColor').text(!isClick ? dataset1_text_out_mention[i] : dataset2_text_out_mention[i]);
-    console.log(i);
+   document.getElementById( "changeBackgroundColor" ).style.backgroundColor = color(i);
+   $('#changeBackgroundColor').text(gcViewdata.description[i]);
+   console.log(i);
 }
 
 
@@ -224,10 +208,10 @@ var g_out = svg_out
 .append("g")
     .on("mouseover",  function(d, i){ changeRed_out(d, i); })
     .on("mouseout",   function(d){ changeGray(); })
-
+	.on("click", function(d,i){ insertGC(); });
+	
 //文字と一緒に円を扱いたいので、gを追加します。
 // dataとenterがあるので、データの分だけ自動で増えます。
-.append("g");
 
 	
 g_out
