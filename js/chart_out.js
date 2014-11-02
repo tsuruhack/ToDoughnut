@@ -187,6 +187,23 @@ function arcAnime_out_right() {
     isClick = true;
 }
 
+function changeRed_out(d, i) {
+    	if(!isClick){
+		if(dataset1_text_out[i] != ""){
+    	document.getElementById( "changeBackgroundColor" ).style.backgroundColor = color(i);
+    }else {
+    	chageGray_out();
+    }
+	}else{
+		if(dataset2_text_out[i] != ""){
+    	document.getElementById( "changeBackgroundColor" ).style.backgroundColor = color(i);
+    }else {
+    	chageGray_out();
+    }
+	}
+   $('#changeBackgroundColor').text(!isClick ? dataset3_text_in_mention[i] : dataset4_text_in_mention[i]);
+    console.log(i);
+}
 
 
 function repaintView(){
@@ -202,6 +219,9 @@ var g_out = svg_out
 
 // 要素を自動で増やす時は、enterを使用します。
 .enter()
+.append("g")
+    .on("mouseover",  function(d, i){ changeRed_out(d, i); })
+    .on("mouseout",   function(d){ changeGray(); })
 
 //文字と一緒に円を扱いたいので、gを追加します。
 // dataとenterがあるので、データの分だけ自動で増えます。
