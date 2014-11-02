@@ -124,5 +124,10 @@ var clockFunc = function(){
 };
 setInterval(clockFunc, 1000);
         </script>
+         <script>
+		window.onload = function(){
+			connectGC();
+		}
+		</script>
 </body>
 </html>

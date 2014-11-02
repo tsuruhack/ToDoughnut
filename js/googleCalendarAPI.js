@@ -5,22 +5,6 @@ var gcViewdata =　[];//posi,summary
 var sequence = 0;
 var hasLoadedEvent = 0;
 
-/*dateをdatetime型かtimestamp型に変換する*/
-function getMySQLDate(dt, dtype) {
-	var timestamp = dt.getFullYear()+
-	                (String(dt.getMonth()+101).substr(1,2))+
-	                (String(dt.getDate()+100).substr(1,2)+
-	                (String(dt.getHours()+100).substr(1,2))+
-	                (String(dt.getMinutes()+100).substr(1,2))+
-	                (String(dt.getSeconds()+100).substr(1,2)));
-	if (dtype=="timestamp") return timestamp;
-
-	timestamp.match(/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})(\d{2})/);
-	var datetime = RegExp.$1+'-'+RegExp.$2+'-'+RegExp.$3+
-			' '+RegExp.$4+':'+RegExp.$5+':'+RegExp.$6;
-	if (dtype=="datetime") return datetime;
-}
-
 /* カレンダーへのアクセス権を取得 */
 function authorizeCalender(callback1,callback2) {
   var config = {
@@ -58,18 +42,19 @@ function getCalenderList(callback){
   });
 }
 /* イベントの一覧を取得する */
-function getEventList(callback,date){
+function getEventList(date,callback){
 	gcEventList = [];
 	//var startDate = date;
-	var nowDate = new Date();
+	console.log(date);
+	if(!date){
+		var nowDate = new Date();
+	}
 	var nen = nowDate.getFullYear();
 	var tuki = nowDate.getMonth();
 	var niti = nowDate.getDate();
-	var ampm = 0;
+	var ampm = (nowDate.getHours() /12 )*12;
 	var startDate = new Date(nen,tuki,niti,ampm);
     var endDate = new Date(startDate.getTime() + 43200000);
-	console.log('start:'+startDate);
-	console.log('end_:'+endDate);
 	var stdate = startDate.toISOString();
 	var eddate = endDate.toISOString();
 	console.log('st:'+stdate);
@@ -141,6 +126,8 @@ function getEvent(evnum,callback){
 	if(callback) callback();
 	hasLoadedEvent = 1;
   });
+  
+  set_gcViewdata();
 }
 
 /* eventをinsertする */
@@ -178,47 +165,26 @@ function updateEvent(){
   var request = gapi.client.calendar.events.update({  // メソッド
     'calendarId': gcCalenderID,  
     'eventId': 'ncv3g2a5v35pp82jcpsla3k89o',
-    'resource': resource // 
+    'resource': resource 
   });
   // リクエスト実行
   request.execute(function(resp){
   });
 }
 
-/*googleAPIconnext*/
-function connectGC(){
+/*googleAPI connect ways*/
+function connectGC(){//OAuth認証から始めて初日のデータを返す
 	hasLoadedEvent = 1;
 	authorizeCalender(getCalenderList,getEventList);
 }
+function changeDayGC(){//OAuth人形は済んでいる状態
+	hasLoadedEvent = 1;
+	getEventList()
+}
+
 
 function get_hasLoadedEvent(){
 	return hasLoadedEvent;
-}
-
-function get_gcEventListPosi(){
-	var ret = [];
-	var starr = [];
-	var edarr = [];
-	var cnt = gcEventList.length-1;
-	for(var i=0;i<=cnt;i++){
-		console.log(gcEventList[i].start.d_posi);
-		starr[i] = gcEventList[i].start.d_posi;
-		edarr[i] = gcEventList[i].end.d_posi;
-	}
-	for(var j = 0;j<48;j++){
-		if(j<=cnt){
-			ret.push(starr[j])
-			var x = (edarr[j]-starr[j]);
-			if(x<0){
-				x = 48;
-			}
-			ret.push(x);
-		}else{
-			ret.push(0);
-		}
-	}
-	console.log(ret);
-	return ret;
 }
 
 //画面に表示する用に使う配列を作成
@@ -250,8 +216,6 @@ function set_gcViewdata(){
 			gcViewdata.summary.push(gcEventList[i].summary);
 	}
 	
-	console.debug(gcViewdata);
-	
 	
 	//配列を0埋め
 	gcViewdata.summary.push('');
@@ -263,54 +227,4 @@ function set_gcViewdata(){
 	
 	console.log(gcViewdata);
 }
-
-
-
-/*表示の更新*/
-/*
-function flush_cid(){
-	$('#calender_id').text(gcCalendarID);
-}
-function flush_evlist(){
-	$('.eventlist').text('');
-	for(var i in gcEventList){
-		$('.eventlist').append('<li><input type="button" value="'+gcEventList[i].summary+'" onClick="getEvent('+i+',flush_evdetails); name = '+i+'"></li>');
-	}
-}
-function flush_evdetails(){
-	$('#eventdetails').text('');
-	for(var i in gcEventDetails){
-		var appstr =  '<dt>'+gcEventDetails[i].summary+'</dd>';
-		appstr += '<dd>start:'+gcEventDetails[i].start.dateTime+'</dd>';
-		appstr += '<dd>end:'+gcEventDetails[i].end.dateTime+'</dd>'
-		$('#eventdetails').append(appstr);	
-	}
-}
-*/
-/* event*/
-/*
-$('#eventlist').hover(function(){
-	console.log(hoverEventlist);
-	$(this).fadeTo('fast',.3);
-},function(){
-	$(this).fadeTo('fast',.1);
-});
-*/
-
-/*
-</script>
-</head>
-<body>
-	<button id="authorizeButton" onClick="connectGC();">connect</button>
-    <button onClick="insertEvent();">insertEvent</button>
-    <button onClick="updateEvent();">updateEvent</button>
-    <br />
-    calender_id<div id="calender_id"></div>
-    eventlist<ul><div class="eventlist"></div></ul>
-    eventdetails<div id="eventdetails"></div>
-
-</body>
-</html>
-*/
-
 

@@ -1,7 +1,7 @@
 // なにかしらのデータを用意
-var dataset1_out = [1, 2, 3, 4, 5, 20];
-for (var i=6;i<48;i++){
-	dataset1_out[i] = 0;
+var dataset1_out = [];
+for (var i=0;i<48;i++){
+	dataset1_out[i] = 1;
 }
 
 var dataset1_text_out = ["友達と遊ぶ", "宿題をやる", "妖怪ウォッチを見る", "踊る", "祈る", "寝る"];
@@ -179,8 +179,6 @@ function arcAnime_out_left() {
 
 //clickイベントの関数を記述します。
 function arcAnime_out_right() {
-	get_gcEventListPosi();
-	set_gcViewdata();
     svg_out
     .selectAll("path")
     // 新しいデータを設定します。
