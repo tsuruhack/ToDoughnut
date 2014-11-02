@@ -1,5 +1,9 @@
 // なにかしらのデータを用意
 var dataset1_out = [1, 2, 3, 4, 5, 20];
+for (var i=6;i<48;i++){
+	dataset1_out[i] = 0;
+}
+
 var dataset1_text_out = ["友達と遊ぶ", "宿題をやる", "妖怪ウォッチを見る", "踊る", "祈る", "寝る"];
 // アニメーション用にもうひとつ用意
 var dataset2_out = [6, 7, 8, 9, 10, 0];
@@ -175,10 +179,12 @@ function arcAnime_out_left() {
 
 //clickイベントの関数を記述します。
 function arcAnime_out_right() {
+	get_gcEventListPosi();
+	set_gcViewdata();
     svg_out
     .selectAll("path")
     // 新しいデータを設定します。
-    .data(pie_out(dataset2_out))
+    .data(pie_out(gcViewdata.posi))
     // トランジションを設定するとアニメーションさせることができます。
     .transition()
     // アニメーションの秒数を設定します。
@@ -195,9 +201,9 @@ function arcAnime_out_right() {
     svg_out
     .selectAll("text")
     // 新しいデータを設定します。
-    .data(pie_out(dataset2_out))
+    .data(pie_out(gcViewdata.posi))
     //文字を更新します。
-    .text(function(d, i) {return dataset2_text_out[i]; })
+    .text(function(d, i) {return gcViewdata.summary[i]; })
     // トランジションを設定。
     .transition()
      // アニメーションの秒数を設定。

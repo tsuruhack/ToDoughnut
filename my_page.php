@@ -55,6 +55,8 @@ div#analog-clock div#hour-hand {
 </style>
 <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 <script src="http://code.jquery.com/jquery-2.1.1.js"></script>
+<script src="https://apis.google.com/js/client.js"></script>
+<script src="/js/googleCalendarAPI.js"></script>
 </head>
 <body>
 	<div id="chart_out"></div>
@@ -62,6 +64,7 @@ div#analog-clock div#hour-hand {
         <div>
             <input type="button" value="データ1" id="btn1" />
             <input type="button" value="データ2" id="btn2" />
+            <button id="authorizeButton" onClick="connectGC();">connect</button>
         </div>
         <script src="./js/chart_out.js"></script>
         <script src="./js/chart_in.js"></script>
