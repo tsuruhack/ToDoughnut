@@ -7,10 +7,16 @@
 <style>
 .chart_in{
 	position: absolute;
-	top: 8px;
+	top: 98px;
+	left: 99px;
+}
+.chart_in svg{
+	border-radius: 100%;
 }
 .clock{
 	position: absolute;
+	width: 200px;
+	height: 200px;
 	top: 170px;
 	left:170px;
 }
@@ -52,74 +58,54 @@ div#analog-clock div#hour-hand {
     border-radius: 3px;
 }
     svg { border: 1px solid black; }
+#changeBackgroundColor {
+    width: 400px;
+    padding: 30px;
+    font-size: 30px;
+    background-color: gray;
+    color: white;
+    text-align: center;
+    font-size: 10px;
+    border-radius: 10px;
+}
+#colorSelector {
+    width: 360px;
+    margin-top: 5px;
+    text-align: center;
+    font-size: 16px;
+}
+#colorSelectorRed {
+    background-color: red;
+    color: white;
+}
+#colorSelectorBlue {
+    background-color: blue;
+    color: white;
+}
+#colorSelectorGreen {
+    background-color: green;
+    color: white;
+}
 </style>
 <script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 <script src="http://code.jquery.com/jquery-2.1.1.js"></script>
+<script type="text/javascript" src="js/jquery.balloon.js"></script>
 </head>
 <body>
-	<div id="chart_out"></div>
 	<div class="chart_in" id="chart_in"></div>
+	<div id="chart_out"></div>
         <div>
             <input type="button" value="データ1" id="btn1" />
             <input type="button" value="データ2" id="btn2" />
         </div>
-        <script src="./js/chart_out.js"></script>
-        <script src="./js/chart_in.js"></script>
         <div id="analog-clock">
         <div id="numbers-container"></div>
         <div id="small-grad-container"></div>
         <div id="hour-hand" class="transition"></div>
         </div>
-        <script>
-        	// 目盛を初期化
-var $bigGradContainer = $('#big-grad-container');
-var $numberContainer = $('#numbers-container');
-for (var i = 0; i < 12; i=i+3) {
-    var $thisGrad = $('<div class="big-grad">');
-    $thisGrad.css({
-        'transform': 'rotate('+(30 * i)+'deg)'
-    });
-    $thisGrad.appendTo($bigGradContainer);
-    var $thisNumner = $('<div class="number">');
-    var $innerNumber = $('<div>');
-    $thisNumner.css({
-        'transform': 'rotate('+(30 * i)+'deg)'
-    });
-    $innerNumber.css({
-        'transform': 'rotate(-'+(30 * i)+'deg)'
-    });
-    var nowNumber = (i > 0) ? (i) : (12);
-    $innerNumber.text(nowNumber);
-    $innerNumber.appendTo($thisNumner);
-    $thisNumner.appendTo($numberContainer);
-}
-var $smallGradContainer = $('#small-grad-container');
-for (var i = 0; i < 60; i = i + 3) {
-    var $thisGrad = $('<div class="small-grad">');
-    $thisGrad.css({
-        'transform': 'rotate('+(6 * i)+'deg)'
-    });
-    $thisGrad.appendTo($smallGradContainer);
-}
-
-var rotateCountHour = 0;
-var time = Math.floor((new Date()).getTime() / 1000);
-var hour = time % (60 * 60 * 24);
-if (hour == 0) {
-    rotateCountHour++;
-}
-var rotateCountScond = 0;
-var clockFunc = function(){
-    var time = Math.floor((new Date()).getTime() / 1000);
-    var second = time % 60;
-    if (second == 0) {
-        rotateCountScond ++;
-    }
-    $('#hour-hand').css({
-        'transform':'rotate('+((360*rotateCountScond)+(360/60)*second)+'deg)'
-    });
-};
-setInterval(clockFunc, 1000);
-        </script>
+        <div id="changeBackgroundColor" ></div>
+        <script src="./js/clock.js"></script>
+        <script src="./js/chart_in.js"></script>
+        <script src="./js/chart_out.js"></script>
 </body>
 </html>

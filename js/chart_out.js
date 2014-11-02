@@ -1,9 +1,14 @@
 // なにかしらのデータを用意
 var dataset1_out = [1, 2, 3, 4, 5, 20];
 var dataset1_text_out = ["友達と遊ぶ", "宿題をやる", "妖怪ウォッチを見る", "踊る", "祈る", "寝る"];
+var dataset1_text_out_mension = ["友達と遊ぶのだー", "宿題をやるぜー！", "妖怪ウォッチを見るうううう", "踊るぜえええええ", "祈る", "寝る"];
 // アニメーション用にもうひとつ用意
 var dataset2_out = [6, 7, 8, 9, 10, 0];
 var dataset2_text_out = ["妖怪ウォッチ", "妖怪ウォッチ", "妖怪ウォッチ", "妖怪ウォッチ", "妖怪ウォッチ"];
+dataset2_text_out_mension= ["任期満了に伴う熊本市長の３氏\nによる討論会が１日、熊本市北区\n徳王１丁目のテレ",
+"うほ!!","うううううううん",
+"他人からのアドバイスはいつもありがたいもの。だが時として「余計なお世話」と感じるような意味不明なもの、上から目線のものがあるのも確かだ。今回はマイナビニュース会員のうち男女300名に、仕事で人からも ……",
+"say year!"]
 // なにかしらのデータを用意
 var dataset3_in = [19, 12, 13, 14, 15];
 var dataset3_text_out = ["妖怪ウォッチ", "妖怪ウォッチ", "妖怪ウォッチ", "妖怪ウォッチ", "妖怪ウォッチ"];
@@ -78,9 +83,26 @@ var g_out = svg_out
 
 //文字と一緒に円を扱いたいので、gを追加します。
 // dataとenterがあるので、データの分だけ自動で増えます。
-.append("g");
+.append("g")
+.on("mouseover",  function(d, i){ 
+	change_out(i); })
+    .on("mouseout",   function(d){
+    	changeGray_out();
+    });
+    
+ // 円と文字を個別に設定するので、切ります。
+    	
 
-// 円と文字を個別に設定するので、切ります。
+
+function change_out(i) {
+    	document.getElementById( "changeBackgroundColor" ).style.backgroundColor = color(i);
+   $('#changeBackgroundColor').text(dataset1_text_out_mension[i]);
+}
+function changeGray_out() {
+    document.getElementById( "changeBackgroundColor" ).style.backgroundColor = "gray";
+    $('#changeBackgroundColor').text("");
+}
+
 
 //円を描画します。
 g_out
