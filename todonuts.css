@@ -2,7 +2,7 @@ body{
 	margin: 0;
 	font-family: "Comic Sans MS";
 	background-image:-webkit-linear-gradient(top, white,white,#ceffff) ;
-	overflow-x:hidden;
+
 }
 a {
 	text-decoration: none;
@@ -17,6 +17,15 @@ h3{
 }
 h5{
 	font-family: "游ゴシック","Yu Gothic";
+}
+h6{
+	font-family: "游ゴシック","Yu Gothic";
+	font-size: 10px;
+}
+h7{
+	position: absolute;
+	font-size: 15px;
+	right: 70px;
 }
 p{
 	font-family: "Comic Sans MS";
@@ -44,13 +53,15 @@ button:hover{
 #header{
 	margin-left: 227px;
 	padding: 10px 0 0 25px;
-	height: 80px;
+	height: 100px;
 	width: calc(100% - 227px);
 	background-color: #efffff;
 	box-shadow: 0 -5px 20px grey;
 	display: -webkit-box;
+	display: -moz-box;
 	display: flex box;
 	-webkit-box-pack: justify;
+	overflow:hidden;
 }
 .title-image{
 	border-radius: 20px;
@@ -62,21 +73,24 @@ button:hover{
 	cursor: pointer;
 }
 .title-name{
-	margin-top: -190px;
-	margin-left: 130px;
+	width: 500px;
+	height: 125px;
+	margin-top: 15px;
 	z-index: 1;
 }
 .image1{
-	width: 45%;
+	width: 300px;
 	height: auto;
 	margin-left: -10%;
-	margin-top: -50px;
-	
+	margin-top: -120px;
+	z-index: 0;
 }
 .image2{
 	width: auto;
-	height: 80px;
+	margin-left: -100px;
+	height: 60px;
 	margin-top: -10px;
+	
 }
 .my-account{
 	margin: 30px;
@@ -119,22 +133,25 @@ button:hover{
 	
 }
 .input{
-	margin: 10px 20px;
+	margin:0 20px;
   	appearance: none;
   	border: solid 1px #ccc;
   	border-radius: 10px;
   	box-shadow: inset 3px 3px 10px grey;
-  	width: 200px;
-  	height: 50px;
+  	width: 75%;
+  	height: 25px;
   	padding: 10px;
+}
+.input-task{
+	padding: 10px;
 }
 .button{
 	margin:10px 20px;
 	appearance:none;
 	border:none;
 	background:#ff99cc;
-	width: 200px;
-	height: 70px;
+	width: 150px;
+	height: 50px;
 	border-radius: 10px;
 	cursor: pointer;
 }
@@ -158,7 +175,7 @@ button:hover{
 	overflow:scroll;
 	overflow-x:hidden; 
 	height: 100%;
-	margin-top: -90px;
+	margin-top: -110px;
 }
 #calendar{
 	background-color: white;
@@ -174,23 +191,45 @@ button:hover{
 	list-style-type: none;
 	
 }
+.menu{
+	list-style-type: none;
+	margin: 0;
+	padding: 0;
+}
 .list > h5{
 	margin: 10px 20px;
 	color: #1f7d8f;
 }
 .list{
+	width: 227px;
 	height: 40px;
 	border-bottom: 1px solid #ccc;
 	border-top: 1px solid #ccc;
 	margin-left: 0px;
 	cursor: pointer;
+	display: -webkit-box;
+	display: flex box;
 }
 .list:hover{
 	background-color: #30bdbf;
-	box-shadow:inset 5px 5px 10px grey ;
+	
 }
 .list:hover h5{
 	color: white;
+}
+.list:active{
+	box-shadow:inset 5px 5px 10px grey ;
+}
+.new{
+	background-color: yellow;
+}
+.new:hover{
+	background-color: orange;
+}
+.finish{
+	position:absolute;
+	right: 0;
+	margin: 0;
 }
 .usr{
 	height: 40px;
@@ -198,10 +237,14 @@ button:hover{
 	border-top: 1px solid #ccc;
 	margin-left: 0px;
 	background-color: #999;
+	cursor: pointer;
 }
 .usr > h5{
 	margin: 10px 20px;
 	color: white;
+}
+.usr:hover{
+	background-color: #555;
 }
 .detail{
 	border-bottom: 1px solid #ccc;
@@ -217,14 +260,18 @@ button:hover{
 	margin-left: 0px;
 	box-shadow: -3px 5px 7px grey;
 	background-color: #30bdbf;
+	cursor: pointer;
+	display: -webkit-box;
+	display: flex box;
 }
 .point h5{
 	margin: 10px 20px;
 	color: white;
 }
 #main{
+	width:calc(100% - 227px);
 	margin:30px;
-	width: 90%;
+
 }
 #circle-graph{
 	position: relative;
@@ -233,7 +280,11 @@ button:hover{
 	/*margin-left: 10px;*/
 	width: 40%;
 }
+#main-footer{
+	width: calc(100% - 227px);
+}
 #select-date{
+	width: 300px;
 	position: relative;
 	left: 50%;
 	display: -webkit-box;
@@ -257,7 +308,7 @@ button:hover{
 #footer{
 	background-color: white;
 	position: relative;
-	left: 227px;
+	left: 260px;
     bottom: 0;
 	width: calc(100% - 227px);;
 	height: 80px;

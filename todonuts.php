@@ -3,11 +3,13 @@
 	<meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
 	<title>main</title>
 	<link rel="stylesheet" href="./todonuts.css">
+	<link rel="stylesheet" type="text/css" href="./jCal/jCal.css">
 	<script src="http://ajax.googleapis.com/ajax/libs/jquery/1.9.1/jquery.min.js"> </script>
 	<script type="text/javascript" src="http://yourdomain/jquery.js"></script>
 	<script type="text/javascript" src="./jCal/jquery.animate.clip.js"></script>
 	<script type="text/javascript" src="./jCal/jCal.min.js"></script>
-	<link rel="stylesheet" type="text/css" href="./jCal/jCal.css">
+	<script type="text/javascript" src="./js/task.js"></script>
+	<script type="text/javascript" src="./js/sort.js"></script>
 </head>
 <body>
 	
@@ -15,16 +17,8 @@
 		$var="Hello World!!!";
 	?>
 	<div id="header">
-		<!-- <a href="./test2.php">
-			<div class="title-image">
-				<img class="image1" src="./sharegoals02.gif">
-				<div class="title-name">
-					<h3> 目標を達成するアプリ</h3>
-					<img class="image2" src="./sharegoalstitle.gif">
-				</div>
-			</div>
-		</a> -->
-		<h1>title</h1>
+		<img class="image1" src="./images/donuts_icon2.gif">
+		<div class="title-name"><img class="image2" src="./images/todonuts_title.gif"></div>
 		<div class="my-account">
 			<p>log inする</p>
 		</div>
@@ -34,17 +28,24 @@
 			<div id="calendar" class="jcalendar-selects">
 			</div>
 			<div id="task-list">
-				<li class="usr"><h5>ユーザ1</h5></li>
-				<li id="task1" class="list"><h5>タスク1</h5></li>
-				<li id="task2" class="list"><h5>タスク２</h5></li>
-				<li id="task3" class="point"><h5>タスク３</h5></li>
-					<li class="detail"><h6>11/4まで<br>達成率:30%<br>コメント:</h6></li>
 				<li class="list new"><h5>＋新規</h5></li>
-				<li class="usr"><h5>ユーザ2</h5></li>
-				<li id="task4" class="list "><h5>タスク１</h5></li>
-				<li id="task5" class="list"><h5>タスク２</h5></li>
-				<li id="task6" class="list"><h5>ya</h5></li>
-				<li id="task7" class="list"><h5>ya</h5></li>
+						<li class="input-task">
+							<input id="task-title" class='input' type='text' placeholder='task'>
+							<input id="date" class="input" type="date" max="3000-12-31T12:00" >
+							<textarea id="memo" class='input' type='input' style="height: 60px;" placeholder='memo'></textarea>
+							<button id="simpleOK">OK</button>
+							<button >詳細</button>
+						</li>
+				<li ><input class="input search" placeholder='search'/><li>
+				<div id="usr1" class="usr"><h5>ユーザ1</h5></div>
+
+				<ul id="hacker-list" class="menu">
+					<!-- <li id="task1" class="list"><h5>タスク1</h5></li>
+					<li id="task2" class="list"><h5>タスク２</h5></li>
+					<li id="task3" class="list"><h5>タスク３</h5></li>
+						<li class="detail"><h6>11/4まで<br>達成率:30%<br>コメント:</h6></li>
+					 -->
+				</ul>
 			</div>
 		</div>
 		<div id="sky"></div>
@@ -96,11 +97,11 @@
 			width=engraph.width();
 		}
 		engraph.css("height",width+"px");
-		engraph.css("margin-left",(-width/2-100)+"px");
+		engraph.css("margin-left",(-width/2)+"px");
 		if(windowwidth < max+300){
-			$("#select-date").css("margin-left",(windowwidth/2-max)+"px");
+			$("#select-date").css("margin-left","0px");
 		}else{
-			$("#select-date").css("margin-left",(-width/2)+"px");
+			$("#select-date").css("margin-left",(-width/2+100)+"px");
 		}
 		window.onresize=function(){
 			width=engraph.width();
@@ -117,18 +118,17 @@
 				engraph.css("width",(windowwidth-300)+"px");
 				width=engraph.width();
 			}else{
-				console.log("a");
 				if(windowwidth-300 > windowheight-100){ shorter = windowheight-100;
 				}else{ shorter = windowwidth-300; }
 				engraph.css("width",shorter+"px");
 				width=engraph.width();
 			}
 			engraph.css("height",width+"px");
-			engraph.css("margin-left",(-width/2-100)+"px");
+			engraph.css("margin-left",(-width/2)+"px");
 			if(windowwidth < max+300){
-				$("#select-date").css("margin-left",(windowwidth/2-max)+"px");
+				$("#select-date").css("margin-left","0px");
 			}else{
-				$("#select-date").css("margin-left",(-width/2)+"px");;
+				$("#select-date").css("margin-left",(-width/2+100)+"px");;
 			}
 		};
 	</script>
