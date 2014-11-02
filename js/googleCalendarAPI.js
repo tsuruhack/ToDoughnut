@@ -1,7 +1,13 @@
 var gcCalendarID;
 var gcEventList = [];
 var gcEventDetails = [];
-var gcViewdata = [];//posi,summary
+var gcViewdata = [];
+/*
+gcViewdata{
+	posi:[]
+	summary:[]
+	description:[]
+}*/
 var sequence = 0;
 var hasLoadedEvent = 0;
 var gcTimedistance = 0;
@@ -201,6 +207,7 @@ function set_gcViewdata(){
 	gcViewdata = [];
 	gcViewdata['posi'] = [];
 	gcViewdata['summary'] = [];
+	gcViewdata['description'] = [];
 	var starr = [];
 	var edarr = [];
 	var cnt = gcEventList.length-1;
@@ -225,7 +232,10 @@ function set_gcViewdata(){
 		}
 		gcViewdata.posi.push(y);
 		gcViewdata.summary.push('');
-		gcViewdata.summary.push(gcEventList[i].summary);
+		gcViewdata.summary.push(gcEventList[i].description);
+		gcViewdata.description.push('');
+		gcViewdata.description.push(gcEventList[i].description);
+
 	}
 	i--;
 	if(edarr[i]<48){
@@ -235,6 +245,7 @@ function set_gcViewdata(){
 	
 	//配列を0埋め
 	gcViewdata.summary.push('');
+	gcViewdata.description.push('');
 	for(var i = 0;i<48;i++){
 		if(!gcViewdata.posi[i]){
 			gcViewdata.posi[i] = 0;
