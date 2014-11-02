@@ -94,7 +94,18 @@ g
 // 今の数値を保存します。
 .each(function(d) {
     this._current = d;
-});
+})
+.transition()   // トランジション開始
+    .duration(1000) // 1秒間でアニメーションさせる
+    .attrTween("d", function(d){    // 指定した範囲で値を変化させアニメーションさせる
+        var interpolate = d3.interpolate(
+            { startAngle : 0, endAngle : 0 },   // 各円グラフの開始角度
+            { startAngle : d.startAngle, endAngle : d.endAngle }    // 各円グラフの終了角度
+        );
+        return function(t){
+            return arc(interpolate(t)); // 時間に応じて処理
+        }
+    });
 
 //文字を描画します。
 g
@@ -119,7 +130,18 @@ g
 //eachで今の数値を保存します。
 .each(function(d) {
     this._current = d;
-});
+})
+.transition()   // トランジション開始
+    .duration(1000) // 1秒間でアニメーションさせる
+    .attrTween("d", function(d){    // 指定した範囲で値を変化させアニメーションさせる
+        var interpolate = d3.interpolate(
+            { startAngle : 0, endAngle : 0 },   // 各円グラフの開始角度
+            { startAngle : d.startAngle, endAngle : d.endAngle }    // 各円グラフの終了角度
+        );
+        return function(t){
+            return arc(interpolate(t)); // 時間に応じて処理
+        }
+    });
 
 //clickイベントの関数を記述します。
 function arcAnime(newdata, newdata_text) {
