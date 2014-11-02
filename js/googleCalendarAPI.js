@@ -208,11 +208,15 @@ function set_gcViewdata(){
 	gcViewdata['posi'] = [];
 	gcViewdata['summary'] = [];
 	gcViewdata['description'] = [];
+	gcViewdata['isNull'] = 0;
 	var starr = [];
 	var edarr = [];
 	var cnt = gcEventList.length-1;
-	if(cnt==0){
+	console.log(cnt);
+	
+	if(cnt==-1){//予定が何も無かったとき
 		gcViewdata.posi.push(1);
+		gcViewdata['isNull'] = 1;
 	}
 	for(var i=0;i<=cnt;i++){
 		console.log(gcEventList[i].start.d_posi);
