@@ -14,6 +14,8 @@
 	<script type="text/javascript" src="./jCal/jCal.min.js"></script>
 	<script type="text/javascript" src="./js/task.js"></script>
 	<script type="text/javascript" src="./js/sort.js"></script>
+    <script src="/js/popupContact.js"></script>
+    <link rel="stylesheet" type="text/css" href="/css/popupContact.css">
 	
 
 </head>
@@ -71,10 +73,10 @@
 
 			<!--ここからドーナツグラフ-->
 			<div id="circle-graph">
-				<div class="chart_in" id="chart_in"></div>
 			    <div id="chart_out">
 			    	<div id="old-clock"><img class="clock-board" src="./images/clock.gif"></div>
 			    </div>
+				<div class="chart_in" id="chart_in"></div>
 			    <div id="analog-clock">
 			    	<div id="hour-hand" class="transition"></div>
 			    </div>
