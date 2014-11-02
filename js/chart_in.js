@@ -1,12 +1,14 @@
 // なにかしらのデータを用意
 var dataset5 = [19, 12, 13, 14, 15];
-var dataset5_text_out = ["妖怪ウォッチ", "妖怪ウォッチ", "妖怪ウォッチ", "妖怪ウォッチ", "妖怪ウォッチ"];
+var dataset5_text_out = ["妖怪ウォッチ", "妖怪ウォッチ", "妖怪ウォッチ", "", "妖怪ウォッチ"];
 // アニメーション用にもうひとつ用意
 var dataset6 = [16, 17, 18, 19, 20];
 
 // SVGの横幅
 var width = 480;
 var width_out = 300;
+
+var isClick = false;
 
 // SVGの縦幅
 var height = 480;
@@ -88,8 +90,12 @@ g
 // 関数で設定するとdataとindexを使えるので、事前に用意したcolorから
 // indexで色を取り出して設定します。
 .attr("fill", function(d, i) {
-	console.log(d, i);
-    return color(i);
+	console.log(color(i));
+	if(dataset5_text_out[i]==""){
+		return "#ffffff";
+	} else{
+        return color(i); 
+	}
 })
 
 // d属性でpathをどう描くか決めます。
@@ -113,8 +119,20 @@ g
     });
     
     function changeRed(d, i) {
+    	if(!isClick){
+		if(dataset3_text_in[i] != ""){
     	document.getElementById( "changeBackgroundColor" ).style.backgroundColor = color(i);
-   $('#changeBackgroundColor').text(dataset2_text_out_mension[i]);
+    }else {
+    	chageGray_out();
+    }
+	}else{
+		if(dataset4_text_in[i] != ""){
+    	document.getElementById( "changeBackgroundColor" ).style.backgroundColor = color(i);
+    }else {
+    	chageGray_out();
+    }
+	}
+   $('#changeBackgroundColor').text(!isClick ? dataset3_text_in_mention[i] : dataset4_text_in_mention[i]);
     console.log(i);
 }
 function changeGray() {
@@ -169,6 +187,13 @@ function arcAnime(newdata, newdata_text) {
     .transition()
     // アニメーションの秒数を設定します。
     .duration(800)
+    .attr("fill", function(d, i) {
+	if(newdata_text[i]==""){
+		return "#ffffff";
+	} else{
+        return color(i); 
+	}
+})
     // アニメーションの間の数値を補完します。
     .attrTween("d", function(d) {
         var interpolate = d3.interpolate(this._current, d);
@@ -196,5 +221,9 @@ function arcAnime(newdata, newdata_text) {
                 return "translate(" + interpolate(t) + ")";
         };
     });
-
+    if(newdata =dataset3_in){
+        isClick = false;
+    } else{
+    	isClick = true;
+    }
 }
