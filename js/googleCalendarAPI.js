@@ -4,9 +4,10 @@ var gcEventDetails = [];
 var gcViewdata = [];
 /*
 gcViewdata{
-	posi:[]
-	summary:[]
-	description:[]
+	posi:[]//予定のドーナツ内の位置 48配列
+	summary:[]//予定のタイトル
+	description:[]//予定の詳細
+	isnull:int//予定が入っていないときtrue
 }*/
 var sequence = 0;
 var hasLoadedEvent = 0;
@@ -151,18 +152,18 @@ function getEvent(evnum,callback){
 }
 
 /* eventをinsertする */
-function insertEvent(){
+function insertEvent(sum,st,ed,loc,des){
   gapi.client.load('calendar', 'v3', function(){
   var resource = {
-    'summary': 'Appointment', // 予定のタイトル
+    'summary': sum, // 予定のタイトル
     'start': { // 開始日・時刻
-      'dateTime': '2013-04-16T10:00:00.000+09:00'
+      'dateTime': st
      },
     'end': { // 終了日・時刻
-      'dateTime': '2013-04-16T10:25:00.000+09:00'
+      'dateTime': ed
      },
-    'location': 'Somewhere', // 場所
-    'description': 'contents of this event' // 説明   
+    'location': loc, // 場所
+    'description': des // 説明
   };
  
   var request = gapi.client.calendar.events.insert({
@@ -197,9 +198,13 @@ function connectGC(){//OAuth認証から始めて初日のデータを返す
 	hasLoadedEvent = 1;
 	authorizeCalender(getCalenderList,getEventList);
 }
-function changeDayGC(){//OAuth人形は済んでいる状態
+function changeDayGC(){//OAuth認証は済んでいる状態
 	hasLoadedEvent = 1;
-	getEventList()
+	getEventList();
+}
+function insertGC(d,i){
+	console.log('huhahahahahahaha');
+	//insertEvent();
 }
 
 
@@ -213,11 +218,15 @@ function set_gcViewdata(){
 	gcViewdata['posi'] = [];
 	gcViewdata['summary'] = [];
 	gcViewdata['description'] = [];
+	gcViewdata['isNull'] = 0;
 	var starr = [];
 	var edarr = [];
 	var cnt = gcEventList.length-1;
-	if(cnt==0){
+	console.log(cnt);
+	
+	if(cnt==-1){//予定が何も無かったとき
 		gcViewdata.posi.push(1);
+		gcViewdata['isNull'] = 1;
 	}
 	for(var i=0;i<=cnt;i++){
 		console.log(gcEventList[i].start.d_posi);

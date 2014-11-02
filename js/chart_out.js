@@ -5,11 +5,11 @@ for (var i=0;i<48;i++){
 }
 
 var dataset1_text_out = ["友達と遊ぶ", "宿題をやる", "妖怪ウォッチを見る", "踊る", "祈る", "寝る"];
-var dataset1_text_out_mension = ["友達と遊ぶのだー", "宿題をやるぜー！", "妖怪ウォッチを見るうううう", "踊るぜえええええ", "祈る", "寝る"];
+var dataset1_text_out_mention = ["友達と遊ぶのだー", "宿題をやるぜー！", "妖怪ウォッチを見るうううう", "踊るぜえええええ", "祈る", "寝る"];
 // アニメーション用にもうひとつ用意
 var dataset2_out = [6, 7, 8, 9, 10, 0];
 var dataset2_text_out = ["妖怪ウォッチ", "妖怪ウォッチ", "妖怪ウォッチ", "妖怪ウォッチ", "妖怪ウォッチ"];
-var dataset2_text_out_mension= ["任期満了に伴う熊本市長の３氏\nによる討論会が１日、熊本市北区\n徳王１丁目のテレ",
+var dataset2_text_out_mention= ["任期満了に伴う熊本市長の３氏\nによる討論会が１日、熊本市北区\n徳王１丁目のテレ",
 "うほ!!","うううううううん",
 "他人からのアドバイスはいつもありがたいもの。だが時として「余計なお世話」と感じるような意味不明なもの、上から目線のものがあるのも確かだ。今回はマイナビニュース会員のうち男女300名に、仕事で人からも ……",
 "say year!"]
@@ -23,8 +23,6 @@ var dataset4_text_in = ["妖怪ウォッチ", "妖怪ウォッチ", "妖怪ウ�
 var dataset4_text_in_mention = ["妖怪ウォッチ", "妖怪ウォッチぬほほほほ", "妖怪ウォッチぬほほほほ", "", "妖怪ウォッチ"];
 // SVGの横幅
 var width = 480;
-
-var isClick = false;
 
 // SVGの縦幅
 var height = 480;
@@ -101,12 +99,13 @@ function arcAnime_out_left() {
     // アニメーションの秒数を設定します。
     .duration(800)
     .attr("fill", function(d, i) {
-	if(dataset1_text_out[i]==""){
+	if(gcViewdata.summary[i]==""){
 		return "#ffffff";
+	}else if(gcViewdata.isNUll==1){
+		return "#ffffff";//何も予定が無かった場合
 	} else{
         return color(i); 
-	}
-})
+	}})
     // アニメーションの間の数値を補完します。
     .attrTween("d", function(d) {
         var interpolate = d3.interpolate(this._current, d);
@@ -135,7 +134,6 @@ function arcAnime_out_left() {
         };
     });
     arcAnime(dataset3_in, dataset3_text_in);
-    isClick = false;
 }
 
 //clickイベントの関数を記述します。
@@ -150,12 +148,13 @@ function arcAnime_out_right() {
     // アニメーションの秒数を設定します。
     .duration(800)
 	.attr("fill", function(d, i) {
-	if(dataset2_text_out[i]==""){
+	if(gcViewdata.summary[i]==""){
 		return "#ffffff";
+	}else if(gcViewdata.isNUll==1){
+		return "#ffffff";//何も予定が無かった場合
 	} else{
         return color(i); 
-	}
-})
+	}})
     // アニメーションの間の数値を補完します。
     .attrTween("d", function(d) {
         var interpolate = d3.interpolate(this._current, d);
@@ -184,25 +183,12 @@ function arcAnime_out_right() {
         };
     });
     arcAnime(dataset4_in, dataset4_text_in);
-    isClick = true;
 }
 
 function changeRed_out(d, i) {
-    	if(!isClick){
-		if(dataset1_text_out[i] != ""){
-    	document.getElementById( "changeBackgroundColor" ).style.backgroundColor = color(i);
-    }else {
-    	chageGray_out();
-    }
-	}else{
-		if(dataset2_text_out[i] != ""){
-    	document.getElementById( "changeBackgroundColor" ).style.backgroundColor = color(i);
-    }else {
-    	chageGray_out();
-    }
-	}
-   $('#changeBackgroundColor').text(!isClick ? dataset3_text_in_mention[i] : dataset4_text_in_mention[i]);
-    console.log(i);
+   document.getElementById( "changeBackgroundColor" ).style.backgroundColor = color(i);
+   $('#changeBackgroundColor').text(gcViewdata.description[i]);
+   console.log(i);
 }
 
 
@@ -222,10 +208,10 @@ var g_out = svg_out
 .append("g")
     .on("mouseover",  function(d, i){ changeRed_out(d, i); })
     .on("mouseout",   function(d){ changeGray(); })
-
+	.on("click", function(d,i){ insertGC(); });
+	
 //文字と一緒に円を扱いたいので、gを追加します。
 // dataとenterがあるので、データの分だけ自動で増えます。
-.append("g");
 
 	
 g_out
@@ -237,8 +223,14 @@ g_out
 // 関数で設定するとdataとindexを使えるので、事前に用意したcolorから
 // indexで色を取り出して設定します。
 .attr("fill", function(d, i) {
-    return color(i);
-})
+	if(gcViewdata.summary[i]==""){
+		return "#ffffff";
+	}else if(gcViewdata.isNUll==1){
+		return "#ffffff";//何も予定が無かった場合
+	} else{
+        return color(i); 
+	}})
+
 
 // d属性でpathをどう描くか決めます。
 // 事前に用意したarcで円を設定できるので、それを入れます。
