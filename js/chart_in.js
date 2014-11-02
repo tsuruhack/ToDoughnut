@@ -1,14 +1,18 @@
 // なにかしらのデータを用意
 var dataset5 = [19, 12, 13, 14, 15];
-var dataset5_text_out = ["妖怪ウォッチ", "妖怪ウォッチ", "妖怪ウォッチ", "妖怪ウォッチ", "妖怪ウォッチ"];
+var dataset5_text_out = ["妖怪ウォッチ", "妖怪ウォッチ", "妖怪ウォッチ", "", "妖怪ウォッチ"];
 // アニメーション用にもうひとつ用意
 var dataset6 = [16, 17, 18, 19, 20];
 
 // SVGの横幅
 var width = 480;
+var width_out = 300;
+
+var isClick = false;
 
 // SVGの縦幅
 var height = 480;
+var height_out = 300;
 
 // 円の大きさ
 var radius = Math.min(width, height) / 2 - 10;
@@ -44,14 +48,14 @@ var svg = d3.select("#chart_in")
 .append("svg")
 
 // attrでタグの属性を設定します。
-.attr("width", width).attr("height", height)
+.attr("width", width_out).attr("height", height_out)
 
 // appendでsvgのgタグ（グループ要素）を追加します。
 // svg内で描画すると、いくつもタグができるので、まとめて動かすときに便利です。
 .append("g")
 
 // 描画場所をsvgの中央にします。
-.attr("transform", "translate(" + width / 2 + "," + height / 2 + ")");
+.attr("transform", "translate(" + width_out / 2 + "," + height_out / 2 + ")");
 
 // 使いまわしたいので、ここで切ります。
 // 描画するだけなら続けて描いても同じです。
@@ -70,7 +74,9 @@ var g = svg
 
 //文字と一緒に円を扱いたいので、gを追加します。
 // dataとenterがあるので、データの分だけ自動で増えます。
-.append("g");
+.append("g")
+    .on("mouseover",  function(d, i){ changeRed(d, i); })
+    .on("mouseout",   function(d){ changeGray(); });
 
 // 円と文字を個別に設定するので、切ります。
 
@@ -84,7 +90,12 @@ g
 // 関数で設定するとdataとindexを使えるので、事前に用意したcolorから
 // indexで色を取り出して設定します。
 .attr("fill", function(d, i) {
-    return color(i);
+	console.log(color(i));
+	if(dataset5_text_out[i]==""){
+		return "#ffffff";
+	} else{
+        return color(i); 
+	}
 })
 
 // d属性でpathをどう描くか決めます。
@@ -94,7 +105,41 @@ g
 // 今の数値を保存します。
 .each(function(d) {
     this._current = d;
-});
+})
+.transition()   // トランジション開始
+    .duration(1000) // 1秒間でアニメーションさせる
+    .attrTween("d", function(d){    // 指定した範囲で値を変化させアニメーションさせる
+        var interpolate = d3.interpolate(
+            { startAngle : 0, endAngle : 0 },   // 各円グラフの開始角度
+            { startAngle : d.startAngle, endAngle : d.endAngle }    // 各円グラフの終了角度
+        );
+        return function(t){
+            return arc(interpolate(t)); // 時間に応じて処理
+        }
+    });
+    
+    function changeRed(d, i) {
+    	if(!isClick){
+		if(dataset3_text_in[i] != ""){
+    	document.getElementById( "changeBackgroundColor" ).style.backgroundColor = color(i);
+    }else {
+    	chageGray_out();
+    }
+	}else{
+		if(dataset4_text_in[i] != ""){
+    	document.getElementById( "changeBackgroundColor" ).style.backgroundColor = color(i);
+    }else {
+    	chageGray_out();
+    }
+	}
+   $('#changeBackgroundColor').text(!isClick ? dataset3_text_in_mention[i] : dataset4_text_in_mention[i]);
+    console.log(i);
+}
+function changeGray() {
+    document.getElementById( "changeBackgroundColor" ).style.backgroundColor = "gray";
+   $('#changeBackgroundColor').text("");
+    $('#chart_in').hideBalloon();
+}
 
 //文字を描画します。
 g
@@ -114,12 +159,23 @@ g
 .style("text-anchor", "middle")
 
 //文字の内容を入れます。
-.text(function(d, i) { return dataset3_text_out[i]; })
+.text(function(d, i) { return dataset5_text_out[i]; })
 
 //eachで今の数値を保存します。
 .each(function(d) {
     this._current = d;
-});
+})
+.transition()   // トランジション開始
+    .duration(1000) // 1秒間でアニメーションさせる
+    .attrTween("d", function(d){    // 指定した範囲で値を変化させアニメーションさせる
+        var interpolate = d3.interpolate(
+            { startAngle : 0, endAngle : 0 },   // 各円グラフの開始角度
+            { startAngle : d.startAngle, endAngle : d.endAngle }    // 各円グラフの終了角度
+        );
+        return function(t){
+            return arc(interpolate(t)); // 時間に応じて処理
+        }
+    });
 
 //clickイベントの関数を記述します。
 function arcAnime(newdata, newdata_text) {
@@ -131,6 +187,13 @@ function arcAnime(newdata, newdata_text) {
     .transition()
     // アニメーションの秒数を設定します。
     .duration(800)
+    .attr("fill", function(d, i) {
+	if(newdata_text[i]==""){
+		return "#ffffff";
+	} else{
+        return color(i); 
+	}
+})
     // アニメーションの間の数値を補完します。
     .attrTween("d", function(d) {
         var interpolate = d3.interpolate(this._current, d);
@@ -158,5 +221,9 @@ function arcAnime(newdata, newdata_text) {
                 return "translate(" + interpolate(t) + ")";
         };
     });
-
+    if(newdata =dataset3_in){
+        isClick = false;
+    } else{
+    	isClick = true;
+    }
 }

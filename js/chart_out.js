@@ -5,15 +5,22 @@ for (var i=0;i<48;i++){
 }
 
 var dataset1_text_out = ["友達と遊ぶ", "宿題をやる", "妖怪ウォッチを見る", "踊る", "祈る", "寝る"];
+var dataset1_text_out_mension = ["友達と遊ぶのだー", "宿題をやるぜー！", "妖怪ウォッチを見るうううう", "踊るぜえええええ", "祈る", "寝る"];
 // アニメーション用にもうひとつ用意
 var dataset2_out = [6, 7, 8, 9, 10, 0];
 var dataset2_text_out = ["妖怪ウォッチ", "妖怪ウォッチ", "妖怪ウォッチ", "妖怪ウォッチ", "妖怪ウォッチ"];
+var dataset2_text_out_mension= ["任期満了に伴う熊本市長の３氏\nによる討論会が１日、熊本市北区\n徳王１丁目のテレ",
+"うほ!!","うううううううん",
+"他人からのアドバイスはいつもありがたいもの。だが時として「余計なお世話」と感じるような意味不明なもの、上から目線のものがあるのも確かだ。今回はマイナビニュース会員のうち男女300名に、仕事で人からも ……",
+"say year!"]
 // なにかしらのデータを用意
 var dataset3_in = [19, 12, 13, 14, 15];
-var dataset3_text_out = ["妖怪ウォッチ", "妖怪ウォッチ", "妖怪ウォッチ", "妖怪ウォッチ", "妖怪ウォッチ"];
+var dataset3_text_in = ["妖怪ウォッチ", "妖怪ウォッチ", "妖怪ウォッチ", "", "妖怪ウォッチ"];
+var dataset3_text_in_mention = ["妖怪ウォッチぐへへへへ", "妖怪ウォッチぐへへへへへ", "妖怪ウォッチ", "", "妖怪ウォッチ"];
 // アニメーション用にもうひとつ用意
 var dataset4_in = [16, 17, 18, 19, 20];
-var dataset4_text_out = ["妖怪ウォッチ", "妖怪ウォッチ", "妖怪ウォッチ", "妖怪ウォッチ", "妖怪ウォッチ"];
+var dataset4_text_in = ["妖怪ウォッチ", "妖怪ウォッチ", "妖怪ウォッチ", "妖怪ウォッチ", "妖怪ウォッチ"];
+var dataset4_text_in_mention = ["妖怪ウォッチ", "妖怪ウォッチぬほほほほ", "妖怪ウォッチぬほほほほ", "", "妖怪ウォッチ"];
 // SVGの横幅
 var width = 480;
 
@@ -68,76 +75,6 @@ var svg_out = d3.select("#chart_out")
 // 使いまわしたいので、ここで切ります。
 // 描画するだけなら続けて描いても同じです。
 
-/*
-
-var g_out = svg_out
-
-// 円はpathというタグで描画されるので、selectAllでまとめてタグを選択します。
-.selectAll("path")
-
-// dataでデータを設定します
-// 円グラフの場合は、事前に準備したpieを利用しないといけません。
-.data(pie_out(dataset1_out))
-
-// 要素を自動で増やす時は、enterを使用します。
-.enter()
-
-//文字と一緒に円を扱いたいので、gを追加します。
-// dataとenterがあるので、データの分だけ自動で増えます。
-.append("g");
-
-// 円と文字を個別に設定するので、切ります。
-
-
-//円を描画します。
-g_out
-
-// 円を描くpathを追加します。
-.append("path")
-
-// fillはsvgの塗りの属性です。
-// 関数で設定するとdataとindexを使えるので、事前に用意したcolorから
-// indexで色を取り出して設定します。
-.attr("fill", function(d, i) {
-    return color(i);
-})
-
-// d属性でpathをどう描くか決めます。
-// 事前に用意したarcで円を設定できるので、それを入れます。
-.attr("d", arc_out)
-
-// 今の数値を保存します。
-.each(function(d) {
-    this._current = d;
-});
-
-//文字を描画します。
-g_out
-
-// 文字をを描くtextを追加します。
-.append("text")
-
-// 文字の位置を円の要素の中心にします。
-.attr("transform", function(d) { return "translate(" + arc_out.centroid(d) + ")"; })
-
-// 文字の大きさを設定します。
-.attr("font-size", "10")
-
-.attr("fill", "#ffffff")
-
-// 文字の開始位置をセンターにします。
-.style("text-anchor", "middle")
-
-//文字の内容を入れます。
-.text(function(d, i) { return dataset1_text_out[i]; })
-
-//eachで今の数値を保存します。
-.each(function(d) {
-    this._current = d;
-});
-*/
-
-
 //#btnにclickイベントを追加します。
 d3.select("#btn1").on("click",function (){move_to_left();} , false);
 d3.select("#btn2").on("click",function (){move_to_right();} , false);
@@ -163,6 +100,13 @@ function arcAnime_out_left() {
     .transition()
     // アニメーションの秒数を設定します。
     .duration(800)
+    .attr("fill", function(d, i) {
+	if(dataset1_text_out[i]==""){
+		return "#ffffff";
+	} else{
+        return color(i); 
+	}
+})
     // アニメーションの間の数値を補完します。
     .attrTween("d", function(d) {
         var interpolate = d3.interpolate(this._current, d);
@@ -190,7 +134,8 @@ function arcAnime_out_left() {
                 return "translate(" + interpolate(t) + ")";
         };
     });
-    arcAnime(dataset3_in, dataset3_text_out);
+    arcAnime(dataset3_in, dataset3_text_in);
+    isClick = false;
 }
 
 //clickイベントの関数を記述します。
@@ -204,6 +149,13 @@ function arcAnime_out_right() {
     .transition()
     // アニメーションの秒数を設定します。
     .duration(800)
+	.attr("fill", function(d, i) {
+	if(dataset2_text_out[i]==""){
+		return "#ffffff";
+	} else{
+        return color(i); 
+	}
+})
     // アニメーションの間の数値を補完します。
     .attrTween("d", function(d) {
         var interpolate = d3.interpolate(this._current, d);
@@ -231,7 +183,8 @@ function arcAnime_out_right() {
                 return "translate(" + interpolate(t) + ")";
         };
     });
-    arcAnime(dataset4_in, dataset4_text_out);
+    arcAnime(dataset4_in, dataset4_text_in);
+    isClick = true;
 }
 
 
@@ -274,7 +227,18 @@ g_out
 // 今の数値を保存します。
 .each(function(d) {
     this._current = d;
-});
+})
+.transition()   // トランジション開始
+    .duration(1000) // 1秒間でアニメーションさせる
+    .attrTween("d", function(d){    // 指定した範囲で値を変化させアニメーションさせる
+        var interpolate = d3.interpolate(
+            { startAngle : 0, endAngle : 0 },   // 各円グラフの開始角度
+            { startAngle : d.startAngle, endAngle : d.endAngle }    // 各円グラフの終了角度
+        );
+        return function(t){
+            return arc_out(interpolate(t)); // 時間に応じて処理
+        }
+    });
 
 //文字を描画します。
 g_out
@@ -299,5 +263,16 @@ g_out
 //eachで今の数値を保存します。
 .each(function(d) {
     this._current = d;
-});
+})
+.transition()   // トランジション開始
+    .duration(1000) // 1秒間でアニメーションさせる
+    .attrTween("d", function(d){    // 指定した範囲で値を変化させアニメーションさせる
+        var interpolate = d3.interpolate(
+            { startAngle : 0, endAngle : 0 },   // 各円グラフの開始角度
+            { startAngle : d.startAngle, endAngle : d.endAngle }    // 各円グラフの終了角度
+        );
+        return function(t){
+            return arc_out(interpolate(t)); // 時間に応じて処理
+        }
+    });
 }
