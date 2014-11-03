@@ -295,7 +295,7 @@ button:hover{
 	display: -webkit-box;
 	display: flex box;
 }
-.left{
+.left1{
 	margin-right: 0;
 	border-radius:5px 0 0 5px;
 }
@@ -303,7 +303,7 @@ button:hover{
 	margin: 0;
 	border-radius: 0;
 }
-.right{
+.right1{
 	margin-left:0;
 	border-radius:0 5px 5px 0;
 }
@@ -312,8 +312,9 @@ button:hover{
 }
 #footer{
 	background-color: white;
-	position: relative;
-	left: 260px;
+	position: absolute;
+	left: 224px;
+	top: 750px;
     bottom: 0;
 	width: calc(100% - 227px);;
 	height: 80px;

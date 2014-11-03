@@ -65,12 +65,12 @@
 			
 			<div id="main-footer">
 				<div id="select-date">
-					<button id="btn1" class="left"><p>＜</p></button>
+					<button id="btn1" class="left1"><p>＜</p></button>
 					<!-- <button class="left"><p>月</p></button>
 					<button class="in"><p>週</p></button>
 					<button class="right"><p>日</p></button> -->
 					<p id="show-date"></p>
-					<button id="btn2" class="right"><p>＞</p></button>
+					<button id="btn2" class="right1"><p>＞</p></button>
 				</div>
 			</div>
 
@@ -109,6 +109,7 @@
 
 		$(document).ready(function () {
 			$('#calendar').jCal();
+			$("#c1d_"+month+"_"+days+"_"+year).addClass("selectedDay");
 		});
 	</script>
 	<script src="./js/clock.js"></script>

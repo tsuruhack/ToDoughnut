@@ -16,14 +16,18 @@ var User1 = [new task(1,"レポート",20141103,"情報工学","H234",null),
 			];//ユーザー1のタスクを入れる配列
 //var User1=[];
 var i=0,j=0;
+var abc = new Date();
+	//abc.setDate(abc.getDate()+1);
+var year = abc.getFullYear();
+var month = abc.getMonth()+1;
+var days = abc.getDate();
 
 $(function(){
-	var abc = new Date();
-	var year = abc.getFullYear();
-	var month = abc.getMonth()+1;
-	var days = abc.getDate();
-	//$("#date").text(year+"年"+month+"月"+days+"日");
+	//日付初期化
 	$("#show-date").text(year+"年"+month+"月"+days+"日");
+	//$("#c1d_11_4_2014").addClass("selectedDay");
+	//console.log("1日付"+month,days,year);//11 3 2014
+
 
 	for(var j=0;User1[j];j++){
 			//console.log(j);
@@ -133,20 +137,8 @@ $(function(){
 		i++;
 
 		//User1の配列を円グラフに描写
-		cycle=12;
-		dataset5 =[0,0,0,0,0,0,0,0,0,0,0,0];
-		dataset5_text_out =["","","","","","","","","","","",""];
-		for(var j=0;User1[j];j++){
-		    dataset5_text_out[j]=User1[j].titlename;
-		    dataset5[j]=parseInt(User1[j].num);
-		    cycle-=User1[j].num;
-		}
-		dataset5[11]=cycle;
-		dataset5_text_out[11]="予定なし";
-		cycle=12;
-		console.log(dataset5,dataset5_text_out);
-
-		arcAnime(dataset5,dataset5_text_out);
+		reload_graph(User1,year*10000+month*100+days);
+		
 	});
 
 	//完了ボタンを押してタスクを消す
@@ -159,24 +151,23 @@ $(function(){
 		console.log($(this).parent("li").attr("id"));
 
 		//User1の配列を円グラフに描写
-		cycle=12;
-		dataset5 =[0,0,0,0,0,0,0,0,0,0,0,0];
-		dataset5_text_out =["","","","","","","","","","","",""];
-		for(var j=0;User1[j];j++){
-		    dataset5_text_out[j]=User1[j].titlename;
-		    dataset5[j]=parseInt(User1[j].num);
-		    cycle-=User1[j].num;
-		}
-		dataset5[11]=cycle;
-		dataset5_text_out[11]="予定なし";
-		cycle=12;
-		console.log(dataset5,dataset5_text_out,User1,n);
-
-		arcAnime(dataset5,dataset5_text_out);
+		reload_graph(User1,year*10000+month*100+days);
+		
 	});
 
+	//カレンダー上の日付がクリックされたら
 	$(document).on("click",".day",function(){
-		alert($(".monthName").text()+" "+this.innerHTML);
+		var str=$(this).attr("id");
+		console.log($(".monthName").text()+" "+$(this).attr("id"));
+		month=parseInt(str.substr(4,2));
+		days=parseInt(str.substr(5+(""+month+"").length,2));
+		year=parseInt(str.substr(6+(""+month+"").length+(""+days+"").length,4));
+		//year=str.substring("_20", end );
+		console.log(year,month,days);
+		$("#show-date").text(year+"年"+month+"月"+days+"日");
+
+		//User1の配列を円グラフに描写
+		reload_graph(User1,year*10000+month*100+days);
 	});
 
 		
@@ -242,3 +233,27 @@ $(function(){
 		};
 	//});
 });
+
+
+
+function reload_graph(User,date){
+	var cycle=12;
+	var i=0;
+		dataset5 =[0,0,0,0,0,0,0,0,0,0,0,0];
+		dataset5_text_out =["","","","","","","","","","","",""];
+		
+		for(var j=0;User[j];j++){
+			if(date==User[j].date){
+			    dataset5_text_out[i]=User[j].titlename;
+			    dataset5[i]=parseInt(User[j].num);
+			    cycle-=User[j].num;
+			    i++;
+			}
+		}
+		dataset5[11]=cycle;
+		dataset5_text_out[11]="タスクなし";
+		cycle=12;
+		console.log(dataset5,dataset5_text_out,date);
+
+		arcAnime(dataset5,dataset5_text_out);
+}
