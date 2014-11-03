@@ -411,7 +411,7 @@ svg {
     text-align: center;
     font-size: 10px;
     border-radius: 10px;
-    white-space: pre;
+    word-break: break-all;
 }
 #colorSelector {
     width: 360px;
