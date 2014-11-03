@@ -198,9 +198,10 @@ function insertEvent(sum,st,ed,des){
     'resource': resource
   });
  
-  request.execute(function(resp){
+  request.execute(function(esp){
      //console.debug(resp);
   });
+  changeDayGC();
 });
 }
 /* eventをupdateする */

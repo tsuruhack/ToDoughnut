@@ -80,11 +80,38 @@ d3.select("#btn2").on("click",function (){move_to_right();} , false);
 function move_to_left(){
 	gcTimedistance--;
 	getEventList(arcAnime_out_left);
+
+    
+    abc.setDate(abc.getDate()-1);
+    year = abc.getFullYear();
+    month = abc.getMonth()+1;
+    days = abc.getDate();
+    $("#show-date").text(year+"年"+month+"月"+days+"日");
+    if(days >= 30) $(".left").click();
+    $("#c1d_"+month+"_"+days+"_"+year).addClass("selectedDay");
+    $("#c1d_"+month+"_"+(days+1)+"_"+year).removeClass("selectedDay");
+    
+    //$("#c1d_11_4_2014").addClass("selectedDay");
+    reload_graph(User1,year*10000+month*100+days);
+        
 }
 
 function move_to_right(){
 	gcTimedistance++;
 	getEventList(arcAnime_out_right);
+
+    $("#c1d_"+month+"_"+days+"_"+year).removeClass("selectedDay");
+    abc.setDate(abc.getDate()+1);
+    year = abc.getFullYear();
+    month = abc.getMonth()+1;
+    days = abc.getDate();
+    $("#show-date").text(year+"年"+month+"月"+days+"日");
+    if(days ==1) $(".right").click();
+    $("#c1d_"+month+"_"+days+"_"+year).addClass("selectedDay");
+    $("#c1d_"+month+"_"+(days-1)+"_"+year).removeClass("selectedDay");
+    
+    //$("#c1d_11_4_2014").addClass("selectedDay");
+    reload_graph(User1,year*10000+month*100+days);
 }
 
 
