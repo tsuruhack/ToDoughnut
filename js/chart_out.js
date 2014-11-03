@@ -99,9 +99,9 @@ function arcAnime_out_left() {
     // アニメーションの秒数を設定します。
     .duration(800)
     .attr("fill", function(d, i) {
-	if(gcViewdata.summary[i]==""){
-		return "#ffffff";
-	}else if(gcViewdata.isNUll==1){
+	if(gcViewdata.isNull==1){
+		return "#914C35";
+	}else if(gcViewdata.summary[i]==""){
 		return "#ffffff";//何も予定が無かった場合
 	} else{
         return color(i); 
@@ -120,7 +120,7 @@ function arcAnime_out_left() {
     // 新しいデータを設定します。
     .data(pie_out(gcViewdata.posi))
     //文字を更新します。
-    .text(function(d ,i) { return gcViewdata.summary[i]; })
+    .text(function(d ,i) {return gcViewdata.isNull==1 && i == 0 ? "予定がありません" : gcViewdata.summary[i]; })
     // トランジションを設定。
     .transition()
      // アニメーションの秒数を設定。
@@ -148,9 +148,9 @@ function arcAnime_out_right() {
     // アニメーションの秒数を設定します。
     .duration(800)
 	.attr("fill", function(d, i) {
-	if(gcViewdata.summary[i]==""){
-		return "#ffffff";
-	}else if(gcViewdata.isNUll==1){
+	if(gcViewdata.isNull==1){
+		return "#914C35";
+	}else if(gcViewdata.summary[i]==""){
 		return "#ffffff";//何も予定が無かった場合
 	} else{
         return color(i); 
@@ -169,7 +169,7 @@ function arcAnime_out_right() {
     // 新しいデータを設定します。
     .data(pie_out(gcViewdata.posi))
     //文字を更新します。
-    .text(function(d, i) {return gcViewdata.summary[i]; })
+    .text(function(d, i) {return gcViewdata.isNull==1 && i == 0 ? "予定がありません" : gcViewdata.summary[i]; })
     // トランジションを設定。
     .transition()
      // アニメーションの秒数を設定。
@@ -186,10 +186,15 @@ function arcAnime_out_right() {
 }
 
 function changeRed_out(d, i) {
-   document.getElementById( "changeBackgroundColor" ).style.backgroundColor = color(i);
-   $('#changeBackgroundColor').text(gcViewdata.description[i]);
+   document.getElementById( "changeBackgroundColor" ).style.backgroundColor = gcViewdata.isNull == 1 ? "#914C35": color(i);
+   $('#changeBackgroundColor').text(gcViewdata.isNull == 1 ? "予定がありません" : gcViewdata.description[i]);
    console.log(i);
 }
+
+function changeGray_out(d, i) {
+	   document.getElementById( "changeBackgroundColor" ).style.backgroundColor = gray;
+	   console.log(i);
+	}
 
 
 function repaintView(){
@@ -223,9 +228,9 @@ g_out
 // 関数で設定するとdataとindexを使えるので、事前に用意したcolorから
 // indexで色を取り出して設定します。
 .attr("fill", function(d, i) {
-	if(gcViewdata.summary[i]==""){
-		return "#ffffff";
-	}else if(gcViewdata.isNUll==1){
+	if(gcViewdata.isNull==1){
+		return "#914C35";
+	}else if(gcViewdata.summary[i]==""){
 		return "#ffffff";//何も予定が無かった場合
 	} else{
         return color(i); 
@@ -264,13 +269,14 @@ g_out
 // 文字の大きさを設定します。
 .attr("font-size", "10")
 
-.attr("fill", "#ffffff")
+.attr("fill", function(d) { return "#ffffff"; })
 
 // 文字の開始位置をセンターにします。
 .style("text-anchor", "middle")
 
 //文字の内容を入れます。
-.text(function(d, i) { return gcViewdata.summary[i]; })
+.text(function(d, i) { 
+	return gcViewdata.isNull==1 && i == 0 ? "予定がありません" : gcViewdata.summary[i]; })
 
 //eachで今の数値を保存します。
 .each(function(d) {

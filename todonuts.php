@@ -14,8 +14,6 @@
 	<script type="text/javascript" src="./jCal/jCal.min.js"></script>
 	<script type="text/javascript" src="./js/task.js"></script>
 	<script type="text/javascript" src="./js/sort.js"></script>
-    <script src="/js/popupContact.js"></script>
-    <link rel="stylesheet" type="text/css" href="/css/popupContact.css">
 	
 
 </head>
@@ -94,8 +92,6 @@
 				<div id="changeBackgroundColor" ></div>
 
 			</div>
-
-		</div>
 	</div>
 	
 	<div id="footer">
