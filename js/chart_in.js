@@ -2,13 +2,19 @@
 var dataset5 =[0,0,0,0,0,0,0,0,0,0,0,0];// [19, 12, 13, 14, 15];
 var dataset5_text_out =["","","","","","","","","","","",""];// ["妖怪ウォッチ", "妖怪ウォッチ", "妖怪ウォッチ", "", ""];
 var cycle=12;
+var i=0;
 for(var j=0;User1[j];j++){
-    dataset5_text_out[j]=User1[j].titlename;
-    dataset5[j]=User1[j].num;
-    cycle-=User1[j].num;
+    if(year*10000+month*100+days==User1[j].date){
+        dataset5_text_out[i]=User1[j].titlename;
+        dataset5[i]=User1[j].num;
+        cycle-=User1[j].num;
+        i++;
+    }
 }
 dataset5[11]=cycle;
+
 dataset5_text_out[11]="予定がありません";
+
 cycle=12;
 console.log(dataset5,dataset5_text_out);
 
