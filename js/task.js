@@ -11,9 +11,7 @@ function usr(num,task){
 	this.num=num;
 	this.task=task;
 }
-var User1 = [new task(1,"レポート",20141103,"情報工学","H234",null),
-			new task(2,"ミーティング",20141106,"","図書館",null)
-			];//ユーザー1のタスクを入れる配列
+var User1 = [];//ユーザー1のタスクを入れる配列
 //var User1=[];
 var i=0,j=0;
 
@@ -142,7 +140,7 @@ $(function(){
 		    cycle-=User1[j].num;
 		}
 		dataset5[11]=cycle;
-		dataset5_text_out[11]="予定なし";
+		dataset5_text_out[11]="予定がありません";
 		cycle=12;
 		console.log(dataset5,dataset5_text_out);
 
@@ -168,7 +166,7 @@ $(function(){
 		    cycle-=User1[j].num;
 		}
 		dataset5[11]=cycle;
-		dataset5_text_out[11]="予定なし";
+		dataset5_text_out[11]="予定がありません";
 		cycle=12;
 		console.log(dataset5,dataset5_text_out,User1,n);
 
