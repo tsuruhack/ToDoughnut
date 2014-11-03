@@ -36,7 +36,7 @@ function analog_clock(){
     $('#hour-hand').css({
         'transform':'rotate('+hour*30+minute/2+'deg)'
     });
-    console.log(hour,minute); 
+    //console.log(hour,minute); 
     setTimeout("analog_clock()",1000);
 }
 

@@ -5,6 +5,7 @@
 
 	<link rel="stylesheet" href="./css/todonuts.css">
 	<link rel="stylesheet" type="text/css" href="./jCal/jCal.css">
+    <link rel="stylesheet" type="text/css" href="/css/popupContact.css">
 	<script src="http://code.jquery.com/jquery-2.1.1.js"></script>
 	<script src="http://d3js.org/d3.v3.min.js" charset="utf-8"></script>
 	<script src="https://apis.google.com/js/client.js"></script>
@@ -14,7 +15,7 @@
 	<script type="text/javascript" src="./jCal/jCal.min.js"></script>
 	<script type="text/javascript" src="./js/task.js"></script>
 	<script type="text/javascript" src="./js/sort.js"></script>
-	
+	<script src="/js/popupContact.js"></script>
 
 </head>
 <body>
@@ -95,6 +96,27 @@
 
 		</div>
 	</div>
+    
+    
+        <!-- PopupContact -->
+        <div id="abc">
+		<!-- Popup Div Starts Here -->
+		<div id="popupContact">
+		<!-- Contact Us Form -->
+		<div id="formpop" name="form" class="pop">
+		<img id="close" src="images/batu.png" width="20" height="20" onclick ="div_hide()">
+		<h2 class="pop">予定を入力</h2>
+		<hr class="pop">
+		<p><input id="namepop" name="name" placeholder="タイトル" type="text" class="pop"></p>
+        <p>start:<input type="datetime-local" id="stpop" step="900" value="2014-11-03T01:00"></p>
+        <p>end:<input type="datetime-local" id="edpop" step="900" value="2014-11-03T03:00"></p>
+		<p><textarea id="msgpop" name="message" placeholder="詳細"></textarea></p>
+		<p><button type="button" id="sakusei" value="作成" onClick="insertClick();">作成</button></p>
+		</div>
+        </div>
+		<!-- Popup Div Ends Here -->
+		</div>
+    
 	
 	<div id="footer">
 		<h2>Tsuruhack©</h2>
