@@ -102,7 +102,7 @@ function arcAnime_out_left() {
 	if(gcViewdata.isNull==1){
 		return "#914C35";
 	}else if(gcViewdata.summary[i]==""){
-		return "#ffffff";//何も予定が無かった場合
+		return "#914C35";//何も予定が無かった場合
 	} else{
         return color(i); 
 	}})
@@ -151,7 +151,7 @@ function arcAnime_out_right() {
 	if(gcViewdata.isNull==1){
 		return "#914C35";
 	}else if(gcViewdata.summary[i]==""){
-		return "#ffffff";//何も予定が無かった場合
+		return "#914C35";//何も予定が無かった場合
 	} else{
         return color(i); 
 	}})
@@ -254,7 +254,7 @@ g_out
 	if(gcViewdata.isNull==1){
 		return "#914C35";
 	}else if(gcViewdata.summary[i]==""){
-		return "#ffffff";//何も予定が無かった場合
+		return "#914C35";//何も予定が無かった場合
 	} else{
         return color(i); 
 	}})
