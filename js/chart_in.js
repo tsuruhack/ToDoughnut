@@ -1,6 +1,17 @@
 // なにかしらのデータを用意
-var dataset5 = [19, 12, 13, 14, 15];
-var dataset5_text_out = ["妖怪ウォッチ", "妖怪ウォッチ", "妖怪ウォッチ", "", "妖怪ウォッチ"];
+var dataset5 =[0,0,0,0,0,0,0,0,0,0,0,0];// [19, 12, 13, 14, 15];
+var dataset5_text_out =["","","","","","","","","","","",""];// ["妖怪ウォッチ", "妖怪ウォッチ", "妖怪ウォッチ", "", ""];
+var cycle=12;
+for(var j=0;User1[j];j++){
+    dataset5_text_out[j]=User1[j].titlename;
+    dataset5[j]=User1[j].num;
+    cycle-=User1[j].num;
+}
+dataset5[11]=cycle;
+dataset5_text_out[11]="予定なし";
+cycle=12;
+console.log(dataset5,dataset5_text_out);
+
 // アニメーション用にもうひとつ用意
 var dataset6 = [16, 17, 18, 19, 20];
 

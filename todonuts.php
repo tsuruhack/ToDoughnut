@@ -34,13 +34,18 @@
 			<div id="calendar" class="jcalendar-selects">
 			</div>
 			<div id="task-list">
-				<li class="list new"><h5>＋新規</h5></li>
+				<li class="list new"><h5>＋新規タスク</h5></li>
 						<li class="input-task">
 							<input id="task-title" class='input' type='text' placeholder='task'>
 							<input id="date" class="input" type="date" max="3000-12-31T12:00" >
 							<textarea id="memo" class='input' type='input' style="height: 60px;" placeholder='memo'></textarea>
+							<div class="detail-setting">
+								<input id="place" class='input' type='text' placeholder='place'>
+								<h5 style="margin: 5px 10px">見積もり時間(h)</h5>
+								<input id="num" class='input' type="number" name="example2" value="1">
+							</div>
 							<button id="simpleOK">OK</button>
-							<button >詳細</button>
+							<button id="detail-setting">詳細</button>
 						</li>
 				<li ><input class="input search" placeholder='search'/><li>
 				<div id="usr1" class="usr"><h5>ユーザ1</h5></div>
@@ -64,7 +69,7 @@
 					<!-- <button class="left"><p>月</p></button>
 					<button class="in"><p>週</p></button>
 					<button class="right"><p>日</p></button> -->
-					<p id="date">2014年11月1日PM</p>
+					<p id="show-date"></p>
 					<button id="btn2" class="right"><p>＞</p></button>
 				</div>
 			</div>

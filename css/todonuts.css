@@ -142,10 +142,13 @@ button:hover{
   	box-shadow: inset 3px 3px 10px grey;
   	width: 75%;
   	height: 25px;
-  	padding: 10px;
+  	padding: 0 10px;
 }
 .input-task{
 	padding: 10px;
+}
+.detail-setting{
+	margin: 10px 0;
 }
 .button{
 	margin:10px 20px;
