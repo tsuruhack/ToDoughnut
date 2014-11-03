@@ -253,7 +253,7 @@ function reload_graph(User,date){
 			}
 		}
 		dataset5[11]=cycle;
-		dataset5_text_out[11]="タスクなし";
+		dataset5_text_out[11]="予定がありません";
 		cycle=12;
 		console.log(dataset5,dataset5_text_out,date);
 

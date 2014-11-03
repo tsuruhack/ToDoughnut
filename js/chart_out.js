@@ -78,8 +78,8 @@ d3.select("#btn1").on("click",function (){move_to_left();} , false);
 d3.select("#btn2").on("click",function (){move_to_right();} , false);
 
 function move_to_left(){
-	//gcTimedistance--;
-	//getEventList(arcAnime_out_left);
+	gcTimedistance--;
+	getEventList(arcAnime_out_left);
 
     
     abc.setDate(abc.getDate()-1);
@@ -97,8 +97,8 @@ function move_to_left(){
 }
 
 function move_to_right(){
-	//gcTimedistance++;
-	//getEventList(arcAnime_out_right);
+	gcTimedistance++;
+	getEventList(arcAnime_out_right);
 
     $("#c1d_"+month+"_"+days+"_"+year).removeClass("selectedDay");
     abc.setDate(abc.getDate()+1);
