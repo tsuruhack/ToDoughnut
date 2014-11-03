@@ -2,16 +2,40 @@ var gcCalendarID;
 var gcEventList = [];
 var gcEventDetails = [];
 var gcViewdata = [];
+var gcNowDate = new Date();
+var gcSelected = {
+	d:0,
+	i:0
+	};//選択されているドーナッツの中の箇所
 /*
 gcViewdata{
 	posi:[]//予定のドーナツ内の位置 48配列
 	summary:[]//予定のタイトル
 	description:[]//予定の詳細
 	isnull:int//予定が入っていないときtrue
+	startDatetime:datetime
+	endDatetime:datetime
+	datetime:datestime//日付
 }*/
 var sequence = 0;
 var hasLoadedEvent = 0;
 var gcTimedistance = 0;
+
+function ToDatetimeT(dt, dtype) {
+	var timestamp = dt.getFullYear()+
+	                (String(dt.getMonth()+101).substr(1,2))+
+	                (String(dt.getDate()+100).substr(1,2)+
+	                (String(dt.getHours()+100).substr(1,2))+
+	                (String(dt.getMinutes()+100).substr(1,2))+
+	                (String(dt.getSeconds()+100).substr(1,2)));
+	if (dtype=="timestamp") return timestamp;
+
+	timestamp.match(/(\d{4})(\d{2})(\d{2})(\d{2})(\d{2})/);
+	var datetime = RegExp.$1+'-'+RegExp.$2+'-'+RegExp.$3+
+			'T'+RegExp.$4+':'+RegExp.$5;
+	if (dtype=="datetime") return datetime;
+}
+
 
 /* カレンダーへのアクセス権を取得 */
 function authorizeCalender(callback1,callback2) {
@@ -68,6 +92,7 @@ function getEventList(callback){
 	var startTime = startDate.getTime() + hosei;
 	startDate.setTime(startTime);
 	console.log(startDate);
+	gcNowDate = startDate;
     var endDate = new Date(startDate.getTime() + 43200000);
 	var stdate = startDate.toISOString();
 	var eddate = endDate.toISOString();
@@ -90,15 +115,14 @@ function getEventList(callback){
         // 予定開始日時/終了日時とイベントIDを表示用の48配列に入れる
         var a = resp.items[i];
         console.log(a);
-		sttime = startDate.getTime();
-		edtime = endDate.getTime();
         console.debug('start:' + a.start.dateTime + ' end:' + a.end.dateTime + 
         'summary:' + a.summary + ' eventid:' + a.id);
 		//startTimeを設定
-		var ji = Number(a.start.dateTime.substr(11,2));
-		//var ji = a.start.date.substr(5,2);
-		var hun = Number(a.start.dateTime.substr(14,2));
-		//var hun = a.start.date.substr(8,2);
+		var sttime = new Date(Date.parse(a.start.dateTime));
+		var edtime = new Date(Date.parse(a.end.dateTime));
+		var ji = sttime.getHours();
+		var hun = edtime.getMinutes();
+
 		ji = (ji % 12) * 4;
 		hun = (hun / 15);
 		var x = ji + hun;
@@ -108,7 +132,11 @@ function getEventList(callback){
 		//var ji = a.end.date.substr(5,2);
 		var hun = Number(a.end.dateTime.substr(14,2));
 		//var hun = a.end.date.substr(8,2);
+		if(ji==12 && hun==0){
+			ji = 48;
+		}else{
 		ji = (ji % 12) * 4;
+		}
 		hun = (hun / 15);
 		var y = ji + hun;
 		console.log('xy'+a.summary+x+y);
@@ -152,7 +180,7 @@ function getEvent(evnum,callback){
 }
 
 /* eventをinsertする */
-function insertEvent(sum,st,ed,loc,des){
+function insertEvent(sum,st,ed,des){
   gapi.client.load('calendar', 'v3', function(){
   var resource = {
     'summary': sum, // 予定のタイトル
@@ -162,7 +190,6 @@ function insertEvent(sum,st,ed,loc,des){
     'end': { // 終了日・時刻
       'dateTime': ed
      },
-    'location': loc, // 場所
     'description': des // 説明
   };
  
@@ -202,11 +229,6 @@ function changeDayGC(){//OAuth認証は済んでいる状態
 	hasLoadedEvent = 1;
 	getEventList();
 }
-function insertGC(d,i){
-	console.log('huhahahahahahaha');
-	//insertEvent();
-}
-
 
 function get_hasLoadedEvent(){
 	return hasLoadedEvent;
@@ -218,9 +240,13 @@ function set_gcViewdata(){
 	gcViewdata['posi'] = [];
 	gcViewdata['summary'] = [];
 	gcViewdata['description'] = [];
+	gcViewdata['startDatetime'] = [];
+	gcViewdata['endDatetime'] = [];
 	gcViewdata['isNull'] = 0;
 	var starr = [];
 	var edarr = [];
+	var stdate = [];
+	var eddate = [];
 	var cnt = gcEventList.length-1;
 	console.log(cnt);
 	
@@ -232,7 +258,10 @@ function set_gcViewdata(){
 		console.log(gcEventList[i].start.d_posi);
 		starr[i] = gcEventList[i].start.d_posi;
 		edarr[i] = gcEventList[i].end.d_posi;
-		
+		console.log('st'+starr[i]);
+		console.log('ed'+edarr[i]);
+		stdate[i] = gcEventList[i].start.datetime;
+		eddate[i] = gcEventList[i].end.datetime;
 		/* positionを設定 */
 		if(i==0){
 			var x = starr[i];
@@ -242,10 +271,12 @@ function set_gcViewdata(){
 		gcViewdata.posi.push(x)
 		var y = (edarr[i]-starr[i]);
 		if(y<0){
-			y = 48;
+			y = 48-edarr[i];
 		}
 		gcViewdata.posi.push(y);
-		gcViewdata.summary.push('');
+		if(x>=0){
+			gcViewdata.summary.push('');
+		}
 		gcViewdata.summary.push(gcEventList[i].summary);
 		gcViewdata.description.push('');
 		gcViewdata.description.push(gcEventList[i].description);

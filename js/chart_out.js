@@ -102,7 +102,7 @@ function arcAnime_out_left() {
 	if(gcViewdata.isNull==1){
 		return "#914C35";
 	}else if(gcViewdata.summary[i]==""){
-		return "#ffffff";//何も予定が無かった場合
+		return "#914C35";//何も予定が無かった場合
 	} else{
         return color(i); 
 	}})
@@ -151,7 +151,7 @@ function arcAnime_out_right() {
 	if(gcViewdata.isNull==1){
 		return "#914C35";
 	}else if(gcViewdata.summary[i]==""){
-		return "#ffffff";//何も予定が無かった場合
+		return "#914C35";//何も予定が無かった場合
 	} else{
         return color(i); 
 	}})
@@ -213,7 +213,30 @@ var g_out = svg_out
 .append("g")
     .on("mouseover",  function(d, i){ changeRed_out(d, i); })
     .on("mouseout",   function(d){ changeGray(); })
-	.on("click", function(d,i){ insertGC(); });
+	.on("click", function(d,i){ 
+		gcSelected.d = d;
+		gcSelected.i = i;
+		
+		//クリックしている場所の時刻を取得しそれをinsertのデフォルトvalueに入れる
+		var std = gcNowDate;
+		var p = 0;
+		for(var j=0;j<i;j++){
+			p += gcViewdata.posi[j];
+		}
+		var hoseigo = std.getTime() + (p*1000*60*15);
+		var std2 = new Date();
+		std2.setTime(hoseigo);
+		var stdate = ToDatetimeT(std2,'datetime');
+		$('#stpop').val(stdate);
+		hoseigo += (1000*60*60)//endのための1時間後
+		std2.setTime(hoseigo);
+		stdate = ToDatetimeT(std2,'datetime');
+		$('#edpop').val(stdate);
+		
+		if(gcViewdata.summary[i]==''){//予定をinsert
+			div_show();//popupContact.jsにある 
+		}//予定をupdate
+	});
 	
 //文字と一緒に円を扱いたいので、gを追加します。
 // dataとenterがあるので、データの分だけ自動で増えます。
@@ -231,7 +254,7 @@ g_out
 	if(gcViewdata.isNull==1){
 		return "#914C35";
 	}else if(gcViewdata.summary[i]==""){
-		return "#ffffff";//何も予定が無かった場合
+		return "#914C35";//何も予定が無かった場合
 	} else{
         return color(i); 
 	}})

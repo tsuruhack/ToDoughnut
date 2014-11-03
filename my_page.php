@@ -126,17 +126,14 @@ div#analog-clock div#hour-hand {
 		<h2 class="pop">予定を入力</h2>
 		<hr class="pop">
 		<p><input id="namepop" name="name" placeholder="タイトル" type="text" class="pop"></p>
-        <p>start:<input type="time" id="stpop" value="13:00:00" step="900">
-        end:<input type="time" id="edpop" value="13:00:00" step="900"></p>
+        <p>start:<input type="datetime-local" id="stpop" step="900" value="2014-11-03T01:00"></p>
+        <p>end:<input type="datetime-local" id="edpop" step="900" value="2014-11-03T03:00"></p>
 		<p><textarea id="msgpop" name="message" placeholder="詳細"></textarea></p>
-		<p><button type="button" value="作成" onClick="insertClick();">作成</button></p>
+		<p><button type="button" id="sakusei" value="作成" onClick="insertClick();">作成</button></p>
 		</div>
         </div>
 		<!-- Popup Div Ends Here -->
 		</div>
-		<!-- Display Popup Button -->
-		<h1 class="pop">Click Button To Popup Form Using Javascript</h1>
-		<button id="popup" onclick="div_show()" class="pop">Popup</button>
         
 		<script src="./js/clock.js"></script>
         <script src="./js/chart_in.js"></script>
