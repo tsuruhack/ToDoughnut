@@ -8,7 +8,7 @@ for(var j=0;User1[j];j++){
     cycle-=User1[j].num;
 }
 dataset5[11]=cycle;
-dataset5_text_out[11]="予定なし";
+dataset5_text_out[11]="予定がありません";
 cycle=12;
 console.log(dataset5,dataset5_text_out);
 
@@ -112,8 +112,8 @@ g
 // indexで色を取り出して設定します。
 .attr("fill", function(d, i) {
 	console.log(color(i));
-	if(dataset5_text_out[i]==""){
-		return "#ffffff";
+	if(dataset5_text_out[i]=="予定がありません"){
+		return "#914C35";
 	} else{
         return color(i); 
 	}
@@ -122,7 +122,6 @@ g
 // d属性でpathをどう描くか決めます。
 // 事前に用意したarcで円を設定できるので、それを入れます。
 .attr("d", arc)
-
 // 今の数値を保存します。
 .each(function(d) {
     this._current = d;
@@ -140,12 +139,20 @@ g
     });
     
     function changeRed(d, i) {
-		if(dataset5_text_out[i] != ""){
+    	console.log(dataset5_text_out[i]);
+		if(dataset5_text_out[i]=="予定がありません"){
+    	document.getElementById( "changeBackgroundColor" ).style.backgroundColor = "#914C35";
+    }else if(dataset5_text_out[i] != ""){
     	document.getElementById( "changeBackgroundColor" ).style.backgroundColor = color(i);
-    }else {
+    } else{
     	chageGray_out();
     }
-   $('#changeBackgroundColor').text(!isClick ? dataset3_text_in_mention[i] : dataset4_text_in_mention[i]);
+		if(dataset5_text_out[i]=="予定がありません"){
+			$('#changeBackgroundColor').text("予定がありません");
+		}else{
+            $('#changeBackgroundColor').text("タスク:"+User1[i].titlename+"場所:"+User1[i].place+"期限:"+User1[i].date+
+		   "コメント:"+User1[i].memo+"目安時間:"+User1[i].num+"時間");
+            }
     console.log(i);
 }
 function changeGray() {
@@ -201,12 +208,13 @@ function arcAnime(newdata, newdata_text) {
     // アニメーションの秒数を設定します。
     .duration(800)
     .attr("fill", function(d, i) {
-	if(newdata_text[i]==""){
-		return "#ffffff";
+	console.log("newDataだよ"+newdata_text[i]+i);
+	if(newdata_text[i]=="予定がありません"){
+		return "#914C35";
 	} else{
         return color(i); 
 	}
-})
+    })
     // アニメーションの間の数値を補完します。
     .attrTween("d", function(d) {
         var interpolate = d3.interpolate(this._current, d);
