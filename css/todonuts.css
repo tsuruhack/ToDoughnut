@@ -412,6 +412,7 @@ svg {
     text-align: center;
     font-size: 10px;
     border-radius: 10px;
+    white-space: nowrap;
 }
 #colorSelector {
     width: 360px;
