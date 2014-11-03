@@ -150,7 +150,8 @@ g
 		if(dataset5_text_out[i]=="予定がありません"){
 			$('#changeBackgroundColor').text("予定がありません");
 		}else{
-            $('#changeBackgroundColor').text("タスク:"+User1[i].titlename+"場所:"+User1[i].place+"期限:"+User1[i].date+
+			var n = "/n";
+            $('#changeBackgroundColor').text("タスク:"+User1[i].titlename+"場所:"+"\A"+User1[i].place+"期限:"+User1[i].date+
 		   "コメント:"+User1[i].memo+"目安時間:"+User1[i].num+"時間");
             }
     console.log(i);
