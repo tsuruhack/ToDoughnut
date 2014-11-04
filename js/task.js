@@ -13,7 +13,10 @@ function usr(num,task){
 	this.task=task;
 }
 var User1 = [new task(1,"レポート",20141103,"情報工学","H234",null),
-			new task(2,"ミーティング",20141106,"","図書館",null)
+			new task(2,"ミーティング",20141106,"","図書館",null),
+			new task(3,"レポート２",20141103,"難しい","",null),
+			new task(3,"レポート3",20141105,"難しい","",null),
+			new task(2,"レポート4",20141103,"難しい","H111",null)
 			];//ユーザー1のタスクを入れる配列
 //var User1=[];
 var i=0,j=0;

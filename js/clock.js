@@ -32,7 +32,7 @@ for (var i = 0; i < 60; i = i + 3) {
 function analog_clock(){
     today = new Date();
     var minute = today.getMinutes();
-    var hour = today.getHours();
+    var hour = (today.getHours() + 1.5);
     $('#hour-hand').css({
         'transform':'rotate('+hour*30+minute/2+'deg)'
     });

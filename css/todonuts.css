@@ -287,6 +287,7 @@ button:hover{
 }
 #main-footer{
 	width: calc(100% - 227px);
+	margin-left:100px;
 }
 #select-date{
 	width: 300px;
